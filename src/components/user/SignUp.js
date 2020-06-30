@@ -32,7 +32,7 @@ class SignUpFormUser extends Component {
                         <Grid container  direction="row" justify="center" alignItems="center" >
                             <div style={{marginBottom:'50px'}}>
                                 <Typography  variant="h4" gutterBottom>
-                                        Get started!
+                                        Register | User
                                 </Typography>
 
                             </div>
