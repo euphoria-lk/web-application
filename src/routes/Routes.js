@@ -3,6 +3,8 @@ import React, {Component} from 'react'
 import {Route, Switch} from 'react-router-dom';
 import SignUpPage from '../views/user/SignUpView';
 import SignInPage from '../views/user/SignInView';
+import CounselorSignIn from '../views/counselor/CounselorSignIn';
+import CounselorSignUp from '../views/counselor/CounselorSignUp';
 
 export default class Routes extends Component {
     render() {
@@ -10,7 +12,8 @@ export default class Routes extends Component {
             <Switch>
               <Route exact path="/user/login" component={SignInPage}/>
               <Route exact path="/user/signup" component={SignUpPage}/>
-
+              <Route exact path="/counselor/login" component={CounselorSignIn}/>
+              <Route exact path="/counselor/signup" component={CounselorSignUp}/>
             </Switch>
         )
     }
