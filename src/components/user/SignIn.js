@@ -18,6 +18,7 @@ import logo from '../../assets/eu-logo.png';
 import axios from 'axios';
 
 import UserProfile from '../../model/UserProfile';
+import {TitleComponent} from '../common/Title'
 
 function Copyright() {
   return (
@@ -102,7 +103,9 @@ class SignIn extends Component{
   render(){
       const {classes}=this.props;
       return(
+        
         <Container style={{backgroundcolor:'white'}} component="main" maxWidth="xs">
+              <TitleComponent title="Sign In | User" />
               <CssBaseline />
               <div className={classes.paper}>
                 

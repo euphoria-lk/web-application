@@ -1,20 +1,14 @@
-import React, { Component} from 'react';
-import {Row,Col} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Grid } from '@material-ui/core'
+import SignUp from '../../components/user/SignUp';
 import NavBarLandingPage from '../../components/common/NavBarLandingPage';
-import SignIn from '../../components/user/SignIn';
-import Grid from '@material-ui/core/Grid';
-import "./UserSignIn.scss";
+import {Row,Col} from 'react-bootstrap';
 
 
-
-export default class SignInView extends Component {
-  
-    
-   
-   
+class SignUpView extends Component {
     render() {
-         const history=this.props;
         return (
+
         <React.Fragment>
         <Grid   >
             <Row >
@@ -24,7 +18,7 @@ export default class SignInView extends Component {
             </Row>
             <Row  id="rootGrid">
                 <Col xs={12}>
-                        <SignIn history={history}></SignIn>
+                        <SignUp/>
 
                 </Col>
             </Row>
@@ -33,4 +27,9 @@ export default class SignInView extends Component {
         </React.Fragment>
         )
     }
+    
 }
+
+
+
+export default SignUpView;
