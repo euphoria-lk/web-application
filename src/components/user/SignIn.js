@@ -109,7 +109,7 @@ class SignIn extends Component{
               <CssBaseline />
               <div className={classes.paper}>
                 
-                <Avatar alt="logo" src={logo} className={classes.bigAvatar} /> <h2>Euphoria</h2>
+                <Avatar alt="logo" src={logo} className={classes.bigAvatar} /> <h2>Sign In | User</h2>
                
                 <form className={classes.form} noValidate onSubmit={this.handleClick} >
                   <TextField
