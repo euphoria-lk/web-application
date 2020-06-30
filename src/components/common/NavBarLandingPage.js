@@ -29,14 +29,10 @@ export default function NavBarLandingPage() {
              <div className={Classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                    {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton> */}
                     <Avatar alt="EU Logo" src={logo} />
                     <Typography variant="h6" className={Classes.title}>
                         Euphoria
                     </Typography>
-                   
                     <Button href="" color="inherit">SignIn</Button>
                     </Toolbar>
                 </AppBar>
