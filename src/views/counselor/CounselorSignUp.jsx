@@ -9,7 +9,9 @@ import {ValidateCounselorSignUp} from '../../validations/CounselorSignUpValidati
 import { FormControl,FormGroup,Button,Box,Avatar } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import {Form} from 'react-bootstrap';
+import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import  CloudUploadIcon  from "@material-ui/icons/CloudUploadOutlined";
 
 import logo from '../../assets/eu-logo.png';
 
@@ -18,12 +20,18 @@ class CounselorSignUp extends Component {
     constructor(props){
         super(props);
          this.state={
-           
+            name:'', 
             email:'',
             password:'',
             passwordConfirmation:'',
             errors:{},
-            isLoading:false
+            isLoading:false,
+            description:'',
+            slmcNumber:'',
+            speciality: '',
+            hospital: '',
+            city: '',
+            image: ''
         }
     }
  
@@ -41,14 +49,13 @@ class CounselorSignUp extends Component {
     
     onSubmit=(e)=>{
         e.preventDefault();
-        console.log("shit");
         
         if(this.isValid()){
             console.log("ho");
             this.setState({errors:{}});
 
             this.props.userSignUpRequest(this.state).then( result => {
-                window.location.replace("/user/signupsuccess");
+                window.location.replace("/user/success");
              }, function(error) {
                 alert('Error occured');
                 
@@ -74,6 +81,17 @@ class CounselorSignUp extends Component {
             menu: {
             width: 200,
             },
+            image:{
+                 display: 'none',
+            },
+            root:{
+                '& > *': {
+                    margin: theme.spacing(1),
+                    },
+            },
+            button:{
+               margin: theme.spacing(1), 
+            }
         }));
         return (
                 <Grid >
@@ -86,30 +104,30 @@ class CounselorSignUp extends Component {
                         <Grid container  direction="row" justify="center" alignItems="center" >
                           
 
-                            <Form onSubmit={this.onSubmit}>
-                             <Form.Label>Name</Form.Label>
+                            <Form style={{width:"60%"}} onSubmit={this.onSubmit}>
+                            <Form.Row>
+                             
                             <Form.Group controlId="fornameq">
                             <TextField
                                 id="nameq"
                                 label="Enter name"
                                 className={useStyles.textField}
                                 type="text"
-                                
+                                required
                                 name="name"
                                 autoComplete="name"
                                 margin="none"
                                 variant="outlined"
-                                style={{ width: '50vh' }}
+                                style={{ width: '45vh' }}
                                 onChange={this.onChange}
                                 value={this.state.name}
 
                             />
                             <br/>
-                            
-                        {errors.name && <span style={{color:'red'}} className="help-block">{errors.name}</span>}
+                        
                         </Form.Group>
                     
-                    <Form.Label>Email</Form.Label>
+                    
 
                         <Form.Group controlId="formemailq">
                             <TextField
@@ -117,12 +135,12 @@ class CounselorSignUp extends Component {
                                 label="Enter email"
                                 className={useStyles.textField}
                                 type="email"
-                                
+                                required
                                 name="email"
                                 autoComplete="email"
                                 margin="none"
                                 variant="outlined"
-                                style={{ width: '50vh' }}
+                                style={{ width: '50vh' ,marginLeft:"70px"}}
                                 onChange={this.onChange}
                                 value={this.state.email}
 
@@ -131,51 +149,143 @@ class CounselorSignUp extends Component {
                             
                         {errors.email && <span style={{color:'red'}} className="help-block">{errors.email}</span>}
                         </Form.Group>
-                         <Form.Label>SLMC Number</Form.Label>
+                        </Form.Row>
+                            <Form.Row>
                             <Form.Group controlId="forslmcq">
                             <TextField
                                 id="slmcNumber"
                                 label="Enter SLMC Number"
                                 className={useStyles.textField}
                                 type="text"
-                                
+                                required
                                 name="slmcNumber"
                                 autoComplete="slmcNumber"
                                 margin="none"
                                 variant="outlined"
-                                style={{ width: '50vh' }}
+                                style={{ width: '30vh' ,marginRight:'30px',marginTop:'20px'}}
                                 onChange={this.onChange}
                                 value={this.state.slmc}
 
                             />
                             <br/>
-                            
-                        {errors.slmc && <span style={{color:'red'}} className="help-block">{errors.slmc}</span>}
+                        
                         </Form.Group>
-                        <Form.Label>Speciality</Form.Label>
+                        
                             <Form.Group controlId="forspecialityq">
                             <TextField
                                 id="speciality"
-                                label="EnterSpeciality"
+                                label="Enter Speciality"
                                 className={useStyles.textField}
                                 type="text"
-                                
+                                required
                                 name="speciality"
                                 autoComplete="speciality"
                                 margin="none"
                                 variant="outlined"
-                                style={{ width: '50vh' }}
+                                style={{ width: '70vh',marginLeft:'50px',marginTop:'20px' }}
                                 onChange={this.onChange}
                                 value={this.state.speciality}
 
                             />
                             <br/>
-                            
-                        {errors.speciality && <span style={{color:'red'}} className="help-block">{errors.speciality}</span>}
+                          
                         </Form.Group>
-                    
+                        </Form.Row>
+                            <Form.Row>
+                            <Form.Group controlId="forhospitalq">
+                            <TextField
+                                id="hospital"
+                                label="Enter Hospital/Work"
+                                className={useStyles.textField}
+                                type="text"
+                                required
+                                name="hospital"
+                                autoComplete="hospital"
+                                margin="none"
+                                variant="outlined"
+                                style={{ width: '55vh' ,marginTop:'20px'}}
+                                onChange={this.onChange}
+                                value={this.state.speciality}
+
+                            />
+                            <br/>
+                        
+                        </Form.Group>
+                       
+                                <Form.Group controlId="forcityq">
+                                <TextField
+                                    id="city"
+                                    label="Enter City"
+                                    className={useStyles.textField}
+                                    type="text"
+                                    required
+                                    name="city"
+                                    autoComplete="city"
+                                    margin="none"
+                                    variant="outlined"
+                                    style={{ width: '50vh' ,marginTop: '20px',marginLeft: '25px'}}
+                                    onChange={this.onChange}
+                                    value={this.state.city}
+
+                                />
+                                <br/>
+                            
+                            </Form.Group>
+                            </Form.Row>
+                            <Form.Row>
+                             <Form.Group controlId="fordescriptionq">
+                                <TextField
+                                    id="description"
+                                    label="Enter Description"
+                                    className={useStyles.textField}
+                                    type="text"
+                                    required
+                                    name="description"
+                                    autoComplete="description"
+                                    margin="none"
+                                    variant="outlined"
+                                    style={{ width: '80vh', marginTop:'20px' }}
+                                    onChange={this.onChange}
+                                    value={this.state.city}
+
+                                />  
+                                <br/>
+                            
+                            </Form.Group>
+                              <Form.Group controlId="forimageq">
+                                       
+                                        <div className={useStyles.root}>
+                                        
+                                        <label htmlFor="image">
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                component="span"
+                                                fullWidth={true}
+                                                size={"large"}
+                                                style={{ marginTop:"28px",marginLeft:"30px"}}
+                                                startIcon={<CloudUploadIcon/>}
+                                            >
+                                                upload Photo
+                                                <input
+                                            accept="image/*"
+                                            id="image"
+                                            name="image"
+                                            required
+                                            style={{ display:'none'}}
+                                            type="file"
+                                            onChange={e => this.handleChange(e)}
+                                        />
+                                            </Button>
+                                        </label>
+                                        </div>
+                                    </Form.Group>
+                                   
+                               
+                            </Form.Row>
+                              <Form.Row>      
                         <Form.Group controlId="formpasswordq">
-                             <Form.Label>Password</Form.Label>
+                          
                             <br/>
                             <TextField
 
@@ -184,10 +294,11 @@ class CounselorSignUp extends Component {
                                 className={useStyles.textField}
                                 type="password"
                                 name="password"
-                                autoComplete="email"
+                                autoComplete="password"
                                 margin="none"
                                 variant="outlined"
-                                style={{ width: '50vh' }}
+                                required
+                                style={{ width: '50vh',marginRight:'20px' }}
                                 onChange={this.onChange}
                                 value={this.state.password}
                             />
@@ -197,7 +308,7 @@ class CounselorSignUp extends Component {
                         </Form.Group>
 
                         <Form.Group controlId="formpasswordconfirmationq">
-                            <Form.Label>Password Confirmation</Form.Label>
+                            
                             <br/>
 
                             <TextField
@@ -208,9 +319,10 @@ class CounselorSignUp extends Component {
                                 type="password"
                                 name="passwordConfirmation"
                                 autoComplete="password"
+                                required
                                 margin="none"
                                 variant="outlined"
-                                style={{ width: '50vh' }}
+                                style={{ width: '50vh',marginLeft:"20px" }}
                                 onChange={this.onChange}
                                 value={this.state.passwordConfirmation}
                             />
@@ -218,15 +330,16 @@ class CounselorSignUp extends Component {
 
                         {errors.passwordConfirmation && <span style={{color:'red'}} className="help-block">{errors.passwordConfirmation}<br></br></span> }
                         </Form.Group>
+                        </Form.Row>
 
                         <Form.Group controlId="formbutton">
                             <Button
                                 variant="contained"
                                 color="primary"
-                                style={{ width: '10vh' }}
+                                style={{ width: '150px' ,marginLeft:"650px",marginTop:'20px'}}
                                 type="submit"
                             >
-                                Send
+                                Sign Up
                             </Button>
                         </Form.Group>
                             
