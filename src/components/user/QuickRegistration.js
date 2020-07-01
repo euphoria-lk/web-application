@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import {Form,Tab,Nav} from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-
+import {axios} from 'axios';
 import {validateQuickSignUp} from '../../validations/PatientSignUpValidation';
 import { Redirect } from 'react-router-dom';
 

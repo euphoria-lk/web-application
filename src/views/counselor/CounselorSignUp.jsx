@@ -54,7 +54,9 @@ class CounselorSignUp extends Component {
             console.log("ho");
             this.setState({errors:{}});
 
-            this.props.userSignUpRequest(this.state).then( result => {
+             axios.post('',JSON.stringify(this.state),{headers: {
+            'Content-Type': 'application/json',
+            }}).then( result => {
                 window.location.replace("/user/success");
              }, function(error) {
                 alert('Error occured');
