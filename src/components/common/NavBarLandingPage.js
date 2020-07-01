@@ -33,7 +33,9 @@ export default function NavBarLandingPage() {
                     <Typography variant="h6" className={Classes.title}>
                         Euphoria
                     </Typography>
-                    <Button href="" color="inherit">SignIn</Button>
+                    <Button href="" color="inherit">Sign Out</Button>
+                   
+
                     </Toolbar>
                 </AppBar>
             </div>
