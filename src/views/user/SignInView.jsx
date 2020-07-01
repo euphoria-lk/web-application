@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import "./UserSignIn.scss";
 
 
-
 export default class SignInView extends Component {
   
     
@@ -19,7 +18,7 @@ export default class SignInView extends Component {
         <Grid   >
             <Row >
                 <Col xs={12}>
-                    <NavBarLandingPage></NavBarLandingPage>
+                    {/* <NavBarLandingPage></NavBarLandingPage> */}
                 </Col>
             </Row>
             <Row  id="rootGrid">

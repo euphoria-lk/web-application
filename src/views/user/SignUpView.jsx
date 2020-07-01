@@ -13,7 +13,7 @@ class SignUpView extends Component {
         <Grid   >
             <Row >
                 <Col xs={12}>
-                    <NavBarLandingPage></NavBarLandingPage>
+                    {/* <NavBarLandingPage></NavBarLandingPage> */}
                 </Col>
             </Row>
             <Row  id="rootGrid">
