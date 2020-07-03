@@ -36,20 +36,20 @@ class NewAppointmentView extends Component {
     
     onSubmit=(e)=>{
         e.preventDefault();
-        console.log("shit");
+        console.log("datetime"+this.state.startTime);
         
         if(true){
             console.log("ho");
             this.setState({errors:{},accountType:'quick'});
 
-            axios.post('',JSON.stringify(this.state),{headers: {
-            'Content-Type': 'application/json',
-            }}).then( result => {
-                window.location.replace("/user/signupsuccess");
-             }, function(error) {
-                alert('Error occured');
+            // axios.post('',JSON.stringify(this.state),{headers: {
+            // 'Content-Type': 'application/json',
+            // }}).then( result => {
+            //     window.location.replace("/user/signupsuccess");
+            //  }, function(error) {
+            //     alert('Error occured');
                 
-             });
+            //  });
         }
     }
     componentDidMount() {
@@ -69,6 +69,7 @@ class NewAppointmentView extends Component {
             let params = queryString.parse(url);
             // console.log(params.name)
             this.state.counselor=params.name;
+            console.log("parameters"+params.name);
     }
     render() {
         
@@ -152,10 +153,11 @@ class NewAppointmentView extends Component {
                                 label="Enter Description"
                                 className={useStyles.textField}
                                 type="text"
-                                name="Description"
-                                autoComplete="Description"
+                                name="description"
+                                autoComplete="description"
                                 margin="none"
-                                rows={3}
+                                multiline="true" 
+                                rows={5}
                                 variant="outlined"
                                 style={{ width: '50vh' }}
                                 onChange={this.onChange}
@@ -165,7 +167,7 @@ class NewAppointmentView extends Component {
                             <br/>
                             
                         </Form.Group>
-                           <Form.Group controlId="formcounselorq">
+                           <Form.Group >
                             <TextField
                                 required
                                 disabled
@@ -173,13 +175,13 @@ class NewAppointmentView extends Component {
                                 label="Enter Counselor Name"
                                 className={useStyles.textField}
                                 type="text"
-                                name="Counselor"
-                                autoComplete="Counselor"
+                                name="counselor"
+                                autoComplete="counselor"
                                 margin="none"
                                 variant="outlined"
                                 style={{ width: '50vh' }}
                                 onChange={this.onChange}
-                                value={this.state.counselor}
+                                value={this.state.counselor|| ""}
 
                             />
                             <br/>
