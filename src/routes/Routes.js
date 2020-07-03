@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch,Redirect} from 'react-router-dom';
 import SignUpPage from '../views/user/SignUpView';
 import SignInPage from '../views/user/SignInView';
 import CounselorSignIn from '../views/counselor/CounselorSignIn';
@@ -18,6 +18,7 @@ export default class Routes extends Component {
               <Route exact path="/counselor/signup" component={CounselorSignUp}/>
               <Route exact path="/user/counselors" component={CouneselorsView}/>
               <Route exact path="/user/appointments/:name" component={NewAppointmentView}/>
+               <Redirect to="/user/login"/>
             </Switch>
         )
     }

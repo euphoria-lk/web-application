@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Grid} from '@material-ui/core'
-import CounselorNavigation from "../../components/counselor/CounselorNavigation";
+import NavBarLandingPage from "../../components/common/NavBarLandingPage";
 import CounselorCard from "../../components/counselor/CounselorCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
@@ -96,7 +96,7 @@ class CounselorAppointments extends Component {
             }));
         return (
             <div>
-                <CounselorNavigation></CounselorNavigation>
+                <NavBarLandingPage></NavBarLandingPage>
                  <TitleComponent title="Counselors | User" />
                 <Grid style={{marginTop:'20px',marginLeft:'50px'}} container spacing={3}>
                     {this.state.appointments !== null ?

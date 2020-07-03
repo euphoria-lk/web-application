@@ -37,17 +37,22 @@ class CounselorCard extends Component {
             expandOpen: {
                 transform: 'rotate(180deg)',
             },
+             large: {
+                width: theme.spacing(10),
+                height: theme.spacing(10),
+                // marginLeft:
+             },
            
             }));
             
-        const tolink='/user/appointments?name='+this.props.counselors.name
+        const tolink='/user/appointments'+this.props.counselors.name
           return (
             <Link underline='none' component={RouterLink} to={tolink} >
             <Card style={{width:'500px',height:'400px',margin:'10px'}} className={classes.root}>
              <CardActionArea>
             <CardHeader
                     avatar={
-                <Avatar  style={{backgroundColor:'green',width:"50px",height:"50px"}} aria-label="recipe" className={classes.avatar}>
+                <Avatar  style={{backgroundColor:'green',width:"50px",height:"50px"}} aria-label="recipe" >
                    {this.props.counselors.name.toString().substring(0, 1).toUpperCase()}
                 </Avatar>
         }
@@ -56,13 +61,10 @@ class CounselorCard extends Component {
                 subheader={this.props.counselors.speciality}
             />
            
-            <CardMedia
-                className={classes.media}
-                image={this.props.counselors.src}   
-                style={{height:'200px',padding:'20px',marginBottom:'20px', 'backgroundImage':this.props.counselors.src}}
-               
-            />
+            
             <CardContent style={{height:''}}>
+
+                <Avatar style={{width:'150px',height:'150px',marginLeft:'30%',marginTop:'-30px',marginBottom:'30px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
                 <Typography variant="body2" color="textSecondary" >
                     Description : {this.props.counselors.description}
                 </Typography>

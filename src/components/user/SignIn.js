@@ -74,6 +74,7 @@ class SignIn extends Component{
   }
    
   handleChange=(e)=>{
+    e.preventDefault();
     this.setState({[e.target.name]:e.target.value});
   }
   handleClick=(e)=>{
@@ -122,7 +123,7 @@ class SignIn extends Component{
                     name="email"
                     autoComplete="email"
                     autoFocus
-                    onChange={this.handleChange}
+                    // onChange={this.handleChange}
 
                   />
                   <TextField
@@ -135,7 +136,7 @@ class SignIn extends Component{
                     type="password"
                     id="password"
                     autoComplete="current-password"
-                    onChange={this.handleChange}
+                    // onChange={this.handleChange}
                   />
                   <FormControlLabel
                     control={<Checkbox value="remember" color="primary" />}

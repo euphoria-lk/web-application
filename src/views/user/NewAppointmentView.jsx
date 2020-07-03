@@ -11,6 +11,7 @@ import NavBarLandingPage from '../../components/common/NavBarLandingPage';
 import logo from '../../assets/eu-logo.png';
 import {TitleComponent} from '../../components/common/Title'
 import CssBaseline from '@material-ui/core/CssBaseline';
+import {Row,Col} from 'react-bootstrap';
 
 class NewAppointmentView extends Component {
     constructor(props){
@@ -26,7 +27,8 @@ class NewAppointmentView extends Component {
             title:'',
             description:'',
             startTime:'',
-            endTime:''
+            endTime:'',
+            speciality:'',
         }
     }
     
@@ -53,24 +55,13 @@ class NewAppointmentView extends Component {
             //  });
         }
     }
+    componentWillMount() {
+     
+            this.state.counselor=this.props.match.params.name;
+            console.log("parameters"+this.state.counselor);
+    }
     componentDidMount() {
-        // axios.get('',
-        //     {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     }).then((response) => {
-        //         this.setState({
-        //             name:response.data.name,
-        //         })
-        //     }).catch((err) => {
-        //         return err
-        //     });
-             let url = this.props.location.search;
-            let params = queryString.parse(url);
-            // console.log(params.name)
-            this.state.counselor=params.name;
-            console.log("parameters"+params.name);
+
     }
     render() {
         
@@ -99,7 +90,14 @@ class NewAppointmentView extends Component {
         return (
             <Grid>
             <NavBarLandingPage></NavBarLandingPage>
-                <Form  style={{textalign: 'center',marginTop:'120px',marginLeft:'40%'}}  onSubmit={this.onSubmit}>
+                <Row>
+                <Col xs={6}>
+                 <Avatar style={{width:'250px',height:'250px',marginLeft:'30%',marginTop:'30%',marginBottom:'30px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
+                <h3 style={{marginLeft:"30%"}}>Name : {this.state.counselor} </h3>
+                 <h4 style={{marginLeft:"30%"}}>Speciality : {this.state.speciality} </h4>
+                </Col>
+                <Col xs={6}>
+                <Form  style={{textalign: 'center',marginTop:'60px',marginLeft:'20%'}}  onSubmit={this.onSubmit}>
                    <TitleComponent title="Appointment | User" />
                    <CssBaseline />
                     <Avatar style={{marginLeft:'190px'}} alt="logo" src={logo} className={useStyles.bigAvatar} /> <h2 style={{marginLeft:'30px',marginBottom:'60px',marginTop:'10px'}}>New Appointment | User</h2>
@@ -110,7 +108,7 @@ class NewAppointmentView extends Component {
                                 required
                                 disabled
                                 id="firstnameq"
-                                label="Enter First Name"
+                                label=" First Name"
                                 className={useStyles.textField}
                                 type="text"
                                 name="firstname"
@@ -130,7 +128,7 @@ class NewAppointmentView extends Component {
                                 required
                                 disabled
                                 id="lastnameq"
-                                label="Enter Last Name"
+                                label=" Last Name"
                                 className={useStyles.textField}
                                 type="text"
                                 name="lastname"
@@ -177,7 +175,7 @@ class NewAppointmentView extends Component {
                                 name="description"
                                 autoComplete="description"
                                 margin="none"
-                                multiline="true" 
+                                multiline={true} 
                                 rows={5}
                                 variant="outlined"
                                 style={{ width: '50vh' }}
@@ -193,7 +191,7 @@ class NewAppointmentView extends Component {
                                 required
                                 disabled
                                 id="counselorq"
-                                label="Enter Counselor Name"
+                                label=" Counselor Name"
                                 className={useStyles.textField}
                                 type="text"
                                 name="counselor"
@@ -202,7 +200,7 @@ class NewAppointmentView extends Component {
                                 variant="outlined"
                                 style={{ width: '50vh' }}
                                 onChange={this.onChange}
-                                value={this.state.counselor|| ""}
+                                value={this.state.counselor}
 
                             />
                             <br/>
@@ -236,7 +234,7 @@ class NewAppointmentView extends Component {
                                 shrink: true,
                                 }}
                                 name='endTime'
-                                style={{ width: '50vh' }}
+                                style={{ width: '50vh',color: 'black'}}
                                 onChange={this.onChange}
                                 variant="outlined"
                                 value={this.state.endTime}
@@ -256,6 +254,8 @@ class NewAppointmentView extends Component {
                         </Form.Group>
                             
                     </Form> 
+                    </Col>
+                    </Row>
                     </Grid>
         )
     }

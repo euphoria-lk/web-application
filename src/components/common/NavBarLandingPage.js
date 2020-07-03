@@ -33,6 +33,7 @@ export default function NavBarLandingPage() {
                     <Typography variant="h6" className={Classes.title}>
                         Euphoria
                     </Typography>
+                    <Avatar style={{marginLeft:'10px',marginRight:'10px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
                     <Button href="" color="inherit">Sign Out</Button>
                    
 

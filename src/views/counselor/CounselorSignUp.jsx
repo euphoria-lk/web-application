@@ -34,7 +34,19 @@ class CounselorSignUp extends Component {
             image: ''
         }
     }
- 
+    handleChange=(e)=>{
+        e.preventDefault();
+        this.setState({
+            [e.target.id]: e.target.value
+        });
+
+        const name = e.target.id;
+        const value = e.target.value;
+
+        let errors = this.state.errors;
+        this.state.image = this.state.image.filter(image => image.name.match(/\.(jpg|jpeg|png|gif)$/));
+    }
+
     onChange=(e)=>{
         this.setState({[e.target.name]:e.target.value})
     }
