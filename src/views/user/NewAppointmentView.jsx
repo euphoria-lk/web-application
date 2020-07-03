@@ -21,7 +21,8 @@ class NewAppointmentView extends Component {
             errors:{},
             isLoading:false,
             counselor:'',
-            name:'',
+            firstname:'',
+            lastname:'',
             title:'',
             description:'',
             startTime:'',
@@ -104,21 +105,41 @@ class NewAppointmentView extends Component {
                     <Avatar style={{marginLeft:'190px'}} alt="logo" src={logo} className={useStyles.bigAvatar} /> <h2 style={{marginLeft:'30px',marginBottom:'60px',marginTop:'10px'}}>New Appointment | User</h2>
                             
                 
-                        <Form.Group controlId="formnameq">
+                        <Form.Group controlId="formfirstnameq">
                             <TextField
                                 required
                                 disabled
-                                id="nameq"
-                                label="Enter Name"
+                                id="firstnameq"
+                                label="Enter First Name"
                                 className={useStyles.textField}
                                 type="text"
-                                name="name"
-                                autoComplete="name"
+                                name="firstname"
+                                autoComplete="firstname"
                                 margin="none"
                                 variant="outlined"
                                 style={{ width: '50vh' }}
                                 onChange={this.onChange}
-                                value={this.state.name}
+                                value={this.state.firstname}
+
+                            />
+                            <br/>
+                            
+                        </Form.Group>
+                        <Form.Group controlId="formlastnameq">
+                            <TextField
+                                required
+                                disabled
+                                id="lastnameq"
+                                label="Enter Last Name"
+                                className={useStyles.textField}
+                                type="text"
+                                name="lastname"
+                                autoComplete="lastname"
+                                margin="none"
+                                variant="outlined"
+                                style={{ width: '50vh' }}
+                                onChange={this.onChange}
+                                value={this.state.lastname}
 
                             />
                             <br/>
