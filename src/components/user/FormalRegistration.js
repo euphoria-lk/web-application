@@ -21,7 +21,7 @@ class FormalRegistration extends Component {
             email:'',
             password:'',
             passwordConfirmation:'',
-            contactNumber:'',
+            contact:'',
             dob:'',
             nic:'',
             city:'',
@@ -276,17 +276,17 @@ class FormalRegistration extends Component {
                                         className={useStyles.textField}
                                         type="text"
                                      
-                                        name="contactNumber"
-                                        autoComplete="contactNumber"
+                                        name="contact"
+                                        autoComplete="contact"
                                         margin="none"
                                         variant="outlined"
                                         onChange={this.onChange}
-                                        value={this.state.contactNumber} 
+                                        value={this.state.contact} 
                                         style={{width:'300px',marginTop:'10px'}}
                                         
                                     />
                                     <br/>
-                                    {errors.contactNumber && <span style={{color:'red'}} className="help-block">{errors.contactNumber}</span>}
+                                    {errors.contact && <span style={{color:'red'}} className="help-block">{errors.contact}</span>}
                             </Form.Group>
 
 
