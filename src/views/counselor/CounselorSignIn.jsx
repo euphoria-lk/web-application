@@ -95,7 +95,6 @@ class CounselorSignIn extends Component{
         })
          console.log(res.data);
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user_profile",res.data.user_profile);
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
 
         // window.location.replace('/counselor/homepage')

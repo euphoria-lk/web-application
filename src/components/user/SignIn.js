@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 
 import logo from '../../assets/eu-logo.png';
 import axios from 'axios';
-
+import { Alert, AlertTitle } from '@material-ui/lab';
 import UserProfile from '../../model/UserProfile';
 import {TitleComponent} from '../common/Title'
 
@@ -68,8 +68,10 @@ class SignIn extends Component{
   constructor(props){
     super(props);
     this.state={
-      'email':'',
-      'password':''
+      email:'',
+      password:'',
+      error:'',
+      success:false
     }
   }
    
@@ -78,24 +80,28 @@ class SignIn extends Component{
   }
   handleClick=(e)=>{
     e.preventDefault();
-    console.log("redirect");
-    
     axios.post('',JSON.stringify(this.state),{headers: {
         'Content-Type': 'application/json',
     }})
     .then((res)=>{
-        const dat=res.data;
-        console.log(dat)
-        UserProfile.setEmail(this.state.email);
-        UserProfile.setName(dat.firstname);
-        UserProfile.setPic(dat.pic_name);
-        UserProfile.setUserType(dat.account_type);
-        UserProfile.setActivated(dat.activated);
-        window.location.replace('/user/homepage')
+      this.setState({
+          success:true,
+          error:false
+        })
+         console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user_profile",res.data.user_profile);
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+        setTimeout(() => {
+               window.location.replace('/user/counselors')
+                }, 2000);
+       
     }).catch(err=>{
-      alert("Invalid combination of username and password");
-      this.setState({"email":'',"password":''});
-
+       this.setState({
+        error:{
+          message:"username or password incorrect"
+        }
+      })
     })
     
 
@@ -107,6 +113,29 @@ class SignIn extends Component{
         <Container style={{backgroundcolor:'white'}} component="main" maxWidth="xs">
               <TitleComponent title="Sign In | User" />
               <CssBaseline />
+               {this.state.error  &&
+          <Alert onClose={() => {
+                this.setState({
+                     error:false
+                 })
+            }} severity= "error"
+               
+        >
+                <AlertTitle>Error</AlertTitle>
+                <strong>{this.state.error.message}</strong>
+            </Alert>
+            }
+            {this.state.success  && 
+            <Alert  severity="success"
+                onClose={() => {
+                this.setState({
+                     success:false
+                 })
+            }}>
+            <AlertTitle>Success</AlertTitle>
+             <strong>LoggedIn  successfully!</strong>
+            </Alert>
+            }
               <div className={classes.paper}>
                 
                 <Avatar alt="logo" src={logo} className={classes.bigAvatar} /> <h2>Sign In | User</h2>
