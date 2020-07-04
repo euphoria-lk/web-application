@@ -45,7 +45,7 @@ class CounselorCard extends Component {
            
             }));
             
-        const tolink='/user/appointments'+this.props.counselors.name
+        const tolink='/user/appointments/'+this.props.counselors.name;
           return (
             <Link underline='none' component={RouterLink} to={tolink} >
             <Card style={{width:'500px',height:'400px',margin:'10px'}} className={classes.root}>

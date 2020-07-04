@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Grid} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import {Container,Tab,Nav} from 'react-bootstrap';
+import {Container,Tab,Nav,Row,Col} from 'react-bootstrap';
 import axios from 'axios';
 import {TitleComponent} from '../../components/common/Title'
 import {ValidateCounselorSignUp} from '../../validations/CounselorSignUpValidation';
@@ -12,9 +12,10 @@ import {Form} from 'react-bootstrap';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import  CloudUploadIcon  from "@material-ui/icons/CloudUploadOutlined";
-
+import {storage} from "../../firebase/firebase"
 import logo from '../../assets/eu-logo.png';
-
+import { Alert, AlertTitle } from '@material-ui/lab';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class CounselorSignUp extends Component {
     constructor(props){
@@ -27,14 +28,23 @@ class CounselorSignUp extends Component {
             errors:{},
             isLoading:false,
             description:'',
-            slmcNumber:'',
+            slmc:'',
             speciality: '',
             hospital: '',
             city: '',
-            image: ''
+            image: null,
+            imageUrl:'',
+            uploaded:false,
+            colSize :3,
+            error:'',
+            success:false,
+            uploadClicked:false
         }
     }
     handleChange=(e)=>{
+        this.setState({
+            uploadClicked:true
+        })
         e.preventDefault();
         this.setState({
             [e.target.id]: e.target.value
@@ -44,11 +54,57 @@ class CounselorSignUp extends Component {
         const value = e.target.value;
 
         let errors = this.state.errors;
-        this.state.image = this.state.image.filter(image => image.name.match(/\.(jpg|jpeg|png|gif)$/));
+        const imageFile = e.target.files[0]
+        this.setState({
+            image:imageFile
+        });
+        console.log('start of upload'+imageFile.name);
+            if(this.state.image === '' ) {
+             console.error(`not an image, the image file is a ${typeof(imageFile)}`)
+        }
+        const uploadTask = storage.ref(`/images/${imageFile.name}`).put(imageFile)
+        uploadTask.on('state_changed',  
+        (snapShot) => {
+        //takes a snap shot of the process as it is happening
+        console.log(snapShot)
+        }, (err) => {
+        //catches the errors
+        console.log(err)
+        }, () => {
+        // gets the functions from storage refences the image storage in firebase by the children
+        // gets the download url then sets the image from firebase as the value for the imgUrl key:
+        storage.ref('images').child(imageFile.name).getDownloadURL()
+        .then(fireBaseUrl => {
+            console.log('uploaded');
+            this.setState({
+                imageUrl:fireBaseUrl,
+                image:fireBaseUrl,
+                uploaded: true,
+                colSize:4
+            })
+            this.state.imageUrl=fireBaseUrl;
+            this.state.image=fireBaseUrl
+            this.state.uploaded=true;
+            this.state.colSize=4
+            console.log(this.state.image);
+
+        })
+        })
+
     }
 
     onChange=(e)=>{
         this.setState({[e.target.name]:e.target.value})
+        if(e.target.name=='password'){
+             if(!this.state.image && !this.state.imageUrl ){
+                this.setState({
+                    error:{
+                        message :"please attach profile image"
+                    }
+                })
+            }
+        }
+     
     }
     isValid=()=>{
         const{errors,isValid}=ValidateCounselorSignUp(this.state);
@@ -61,18 +117,64 @@ class CounselorSignUp extends Component {
     
     onSubmit=(e)=>{
         e.preventDefault();
-        
+      
         if(this.isValid()){
             console.log("ho");
             this.setState({errors:{}});
+       
 
-             axios.post('',JSON.stringify(this.state),{headers: {
+            //  axios.post('http://localhost:5000/api/v1/counsellor-service/counsellor/signup',JSON.stringify(this.state),{headers: {
+            // 'Content-Type': 'application/json',
+            // }}).then( result => {
+            //     this.setState({
+            //         success: true
+            //     })
+            //     setTimeout(() => {
+            //         window.location.replace("/counselor/login");
+            //     }, 2000);
+
+                
+             
+            //  }).catch(err=>{
+            //      this.setState({
+            //          error:err
+            //      });
+            //  })
+            const body ={
+                name:this.state.name,
+                email:this.state.email,
+                speciality:this.state.speciality,
+                description:this.state.description,
+                slmc:this.state.slmc,
+                hospital:this.state.hospital,
+                image:this.state.image,
+                password:this.state.password,
+                city:this.state.city
+            }
+            axios.post('http://localhost:5000/api/v1/counsellor-service/counsellor/signup',JSON.stringify(body),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
-                window.location.replace("/user/success");
-             }, function(error) {
-                alert('Error occured');
-                
+                console.log(result)
+                if(result.data.message && result.status === 200){
+                     this.setState({
+                     error:result.data
+                 })
+                }else{
+                 this.setState({
+                     success: true
+            })
+              setTimeout(() => {
+               window.location.replace("/counselor/login");
+                }, 2000);
+                }
+                 
+            
+             }).catch(err=>{
+                 console.log("error "+err.message);
+                 this.setState({
+                     error:err
+                 })
+             
              });
         }
     }
@@ -109,10 +211,45 @@ class CounselorSignUp extends Component {
         }));
         return (
                 <Grid >
+                {this.state.error  &&
+                    <Alert onClose={() => {
+                        this.setState({
+                            error:false
+                        })
+                        console.log("clicked");
+                    }} severity= "error"
+                    
+                >
+                     <AlertTitle>Error</AlertTitle>
+                     <strong>{this.state.error.message}</strong>
+                    </Alert>
+            }
+                {this.state.success  && 
+                 <Alert  severity="success"
+                    onClose={() => {
+                    this.setState({
+                        success:false
+                 })
+            }}>
+            <AlertTitle>Success</AlertTitle>
+             <strong>Counselor saved successfully!</strong>
+            </Alert>
+            }
                       <TitleComponent title="Register | Counselor" />
-                      <div style={{marginLeft:'40%',marginBottom:'50px',marginTop:'50px'}}>
+                       <Avatar alt="logo" src={logo} style={{marginTop: 30,width: 60, height: 60,marginLeft:'40%'}} />
+                      <div style={{marginLeft:'10%',marginBottom:'50px',marginTop:'50px'}}>
                                 
-                                <Avatar alt="logo" src={logo} style={{margin: 10,width: 60, height: 60,marginLeft:'90px'}} /> <h2>Sign Up | Counselor</h2>
+                               
+                                <Row>
+                                <Col xs={this.state.colSize}>
+                                    {this.state.uploaded &&
+                                    <Avatar alt="logo" src={this.state.image} style={{marginTop: 30,width: 60, height: 60, marginTop:'-10px', marginLeft:'80%'}} />
+                                     }
+                                </Col>
+                                <Col xs={12- this.state.colSize} style={{marginLeft:''}}>
+                                 <h2>Sign Up | Counselor</h2> 
+                                 </Col>
+                                 </Row>
 
                             </div>
                         <Grid container  direction="row" justify="center" alignItems="center" >
@@ -142,7 +279,7 @@ class CounselorSignUp extends Component {
                         </Form.Group>
                     
                     
-
+                       
                         <Form.Group controlId="formemailq">
                             <TextField
                                 id="emailq"
@@ -172,7 +309,7 @@ class CounselorSignUp extends Component {
                                 className={useStyles.textField}
                                 type="text"
                                 required
-                                name="slmcNumber"
+                                name="slmc"
                                 autoComplete="slmcNumber"
                                 margin="none"
                                 variant="outlined"
@@ -219,7 +356,7 @@ class CounselorSignUp extends Component {
                                 variant="outlined"
                                 style={{ width: '55vh' ,marginTop:'20px'}}
                                 onChange={this.onChange}
-                                value={this.state.speciality}
+                                value={this.state.hospital}
 
                             />
                             <br/>
@@ -260,7 +397,7 @@ class CounselorSignUp extends Component {
                                     variant="outlined"
                                     style={{ width: '80vh', marginTop:'20px' }}
                                     onChange={this.onChange}
-                                    value={this.state.city}
+                                    value={this.state.description}
 
                                 />  
                                 <br/>
@@ -294,6 +431,9 @@ class CounselorSignUp extends Component {
                                         </label>
                                         </div>
                                     </Form.Group>
+                                    {(!this.state.uploaded && this.state.uploadClicked) &&
+                                     <CircularProgress style={{width:'50px', height:'50px',marginLeft:'50px',marginTop:'20px'}} />
+                                     }
                                    
                                
                             </Form.Row>

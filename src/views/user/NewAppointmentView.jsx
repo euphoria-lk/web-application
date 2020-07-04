@@ -5,14 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import {Form,Tab,Nav} from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import {axios} from 'axios';
+import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import NavBarLandingPage from '../../components/common/NavBarLandingPage';
 import logo from '../../assets/eu-logo.png';
 import {TitleComponent} from '../../components/common/Title'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {Row,Col} from 'react-bootstrap';
-
+import styles from './Style.css';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 class NewAppointmentView extends Component {
     constructor(props){
         super(props);
@@ -29,7 +32,13 @@ class NewAppointmentView extends Component {
             startTime:'',
             endTime:'',
             speciality:'',
+            email:'',
+            error:'',
+            open:true,
+            success:false
         }
+        
+        
     }
     
     onChange=(e)=>{
@@ -40,31 +49,63 @@ class NewAppointmentView extends Component {
     onSubmit=(e)=>{
         e.preventDefault();
         console.log("datetime"+this.state.startTime);
+            
         
-        if(true){
-            console.log("ho");
-            this.setState({errors:{},accountType:'quick'});
-
-            // axios.post('',JSON.stringify(this.state),{headers: {
-            // 'Content-Type': 'application/json',
-            // }}).then( result => {
-            //     window.location.replace("/user/signupsuccess");
-            //  }, function(error) {
-            //     alert('Error occured');
+        axios.post('http://localhost:5000/api/v1/counselling-service/counsellor/appointments',JSON.stringify(this.state),{headers: {
+            'Content-Type': 'application/json',
+            }}).then( result => {
+                if(result.message){
+                    this.setState({
+                        error:result
+                    })
+                }else{
+                this.setState({
+                     success: true
+            })
+              setTimeout(() => {
+               window.location.replace("/user/counselors");
+                }, 2000);
                 
-            //  });
-        }
+                }
+                 
+            
+             }).catch(err=>{
+                 this.setState({
+                     error:err
+                 })
+             
+             });
     }
     componentWillMount() {
-     
             this.state.counselor=this.props.match.params.name;
-            console.log("parameters"+this.state.counselor);
+            axios.get('http://localhost:5000/api/v1/counsellor-service/counsellor/'+this.state.counselor,{headers: {
+            'Content-Type': 'application/json',
+            }}).then( result => {
+                console.log(result.data);
+                if(result.data.message){
+                    this.setState({
+                        error:result.data
+                    })
+                }else{
+                this.setState({
+                counselor:result.data.name,
+                speciality:result.data.speciality,
+                email:result.data.email
+            })
+                }
+             
+             }).catch(err=>{
+                 this.setState({
+                     error:err
+                 })
+             
+             });
+          
     }
     componentDidMount() {
-
+        
     }
     render() {
-        
         const {errors} =this.state;
          const useStyles = makeStyles(theme => ({
             container: {
@@ -87,14 +128,40 @@ class NewAppointmentView extends Component {
                 height: 60,
             },
         }));
+        const alert=<h3></h3>;
         return (
+            
             <Grid>
             <NavBarLandingPage></NavBarLandingPage>
+             {this.state.error  &&
+            <Alert onClose={() => {
+                this.setState({
+                     error:false
+                 })
+            }} severity= "error"
+               
+        >
+                <AlertTitle>Error</AlertTitle>
+                <strong>{this.state.error.message}</strong>
+            </Alert>
+            }
+            {this.state.success  && 
+            <Alert  severity="success"
+                onClose={() => {
+                this.setState({
+                     success:false
+                 })
+            }}>
+            <AlertTitle>Success</AlertTitle>
+             <strong>Appointment saved successfully!</strong>
+            </Alert>
+            }
                 <Row>
                 <Col xs={6}>
                  <Avatar style={{width:'250px',height:'250px',marginLeft:'30%',marginTop:'30%',marginBottom:'30px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
-                <h3 style={{marginLeft:"30%"}}>Name : {this.state.counselor} </h3>
-                 <h4 style={{marginLeft:"30%"}}>Speciality : {this.state.speciality} </h4>
+                <h4 style={{marginLeft:"30%",fontFamily:"Inconsolata"}}>Name : {this.state.counselor} </h4>
+                 <h4 style={{marginLeft:"30%",fontFamily:"Inconsolata"}}>Speciality : {this.state.speciality} </h4>
+                 <h4 style={{marginLeft:"30%",fontFamily:"Inconsolata"}}>Email : {this.state.email} </h4>
                 </Col>
                 <Col xs={6}>
                 <Form  style={{textalign: 'center',marginTop:'60px',marginLeft:'20%'}}  onSubmit={this.onSubmit}>
@@ -106,7 +173,7 @@ class NewAppointmentView extends Component {
                         <Form.Group controlId="formfirstnameq">
                             <TextField
                                 required
-                                disabled
+                                
                                 id="firstnameq"
                                 label=" First Name"
                                 className={useStyles.textField}
@@ -126,7 +193,7 @@ class NewAppointmentView extends Component {
                         <Form.Group controlId="formlastnameq">
                             <TextField
                                 required
-                                disabled
+                                
                                 id="lastnameq"
                                 label=" Last Name"
                                 className={useStyles.textField}
