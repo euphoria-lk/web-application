@@ -17,6 +17,9 @@ import logo from '../../assets/eu-logo.png';
 import axios from 'axios';
 import {TitleComponent} from '../../components/common/Title'
 import './CounselorSignIn'
+import { Alert, AlertTitle } from '@material-ui/lab';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 function Copyright() {
   return (
@@ -66,8 +69,10 @@ class CounselorSignIn extends Component{
   constructor(props){
     super(props);
     this.state={
-      'email':'',
-      'password':''
+      email:'',
+      password:'',
+      error:'',
+      success:false
     }
   }
    
@@ -76,19 +81,30 @@ class CounselorSignIn extends Component{
   }
   handleClick=(e)=>{
     e.preventDefault();
-    console.log("redirect");
-    
-    axios.post('',JSON.stringify(this.state),{headers: {
+    const body={
+      email:this.state.email,
+      password:this.state.password
+    }
+    axios.post('',JSON.stringify(body),{headers: {
         'Content-Type': 'application/json',
     }})
     .then((res)=>{
+        this.setState({
+          success:true,
+          error:false
+        })
          console.log(res.data);
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user_profile",res.data.user_profile);
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
-        window.location.replace('/counselor/homepage')
+
+        // window.location.replace('/counselor/homepage')
     }).catch(err=>{
-      alert("Invalid combination of username and password");
-      this.setState({"email":'',"password":''});
+      this.setState({
+        error:{
+          message:"username or password incorrect"
+        }
+      })
 
     })
     
@@ -97,8 +113,31 @@ class CounselorSignIn extends Component{
   render(){
       const {classes}=this.props;
       return(
+        
         <Grid id="rootContainer" >
-
+         {this.state.error  &&
+          <Alert onClose={() => {
+                this.setState({
+                     error:false
+                 })
+            }} severity= "error"
+               
+        >
+                <AlertTitle>Error</AlertTitle>
+                <strong>{this.state.error.message}</strong>
+            </Alert>
+            }
+            {this.state.success  && 
+            <Alert  severity="success"
+                onClose={() => {
+                this.setState({
+                     success:false
+                 })
+            }}>
+            <AlertTitle>Success</AlertTitle>
+             <strong>LoggedIn  successfully!</strong>
+            </Alert>
+            }
         <Container component="main" maxWidth="xs">
               <TitleComponent title="Sign In | Counselor" />
               <CssBaseline />
