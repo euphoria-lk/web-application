@@ -5,6 +5,9 @@ import CounselorCard from "../../components/counselor/CounselorCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import {TitleComponent} from '../../components/common/Title'
+import { Alert, AlertTitle } from '@material-ui/lab';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 
 const axios = require('axios').default;
 
@@ -15,74 +18,27 @@ class CounselorAppointments extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            counselors: [{
-                    name:"Dimuthu",
-                    speciality:"Thug",
-                    description:"this is my style bro",
-                    src:"../../assets/profile/me.jpg",
-                    age:"33",
-                    city:"Matara"
-
-
-            },
-            {
-                    name:"Dimuthu",
-                    speciality:"Thug",
-                    description:"this is my style bro",
-                    src:"../../assets/profile/u1.jpg",
-                    age:"33",
-                    city:"Matara"
-
-
-            },
-            {
-                    name:"Dimuthu",
-                    speciality:"Thug",
-                    description:"this is my style bro",
-                    src:"/assets/profile/u2.jpg",
-                    age:"33",
-                    city:"Matara"
-
-
-            },
-            {
-                    name:"Dimuthu",
-                    speciality:"Thug",
-                    description:"this is my style bro",
-                    src:"../../assets/profile/u3.jpeg",
-                    age:"33",
-                    city:"Matara"
-
-
-            },
-            {
-                    name:"Dimuthu",
-                    speciality:"Thug",
-                    description:"this is my style bro",
-                    src:"../../assets/profile/u4.jpg",
-                    age:"33",
-                    city:"Matara"
-
-
-            },
-            ],
+            counselors: [],
+            error:'',
         };
     }
 
 
     componentDidMount(){
-        // axios.get('',
-        //     {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     }).then((response) => {
-        //         this.setState({
-        //             counselors:response.data,
-        //         })
-        //     }).catch((err) => {
-        //         return err
-        //     })
+        axios.get('http://localhost:5000/api/v1/counselling-service/counsellor/6',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((response) => {
+                this.setState({
+                    counselors:response.data,
+                })
+            }).catch((err) => {
+                this.setState({
+                    error:err
+                })
+            })
     };
 
     render() {
@@ -99,6 +55,18 @@ class CounselorAppointments extends Component {
                 <NavBarLandingPage></NavBarLandingPage>
                  <TitleComponent title="Counselors | User" />
                 <Grid style={{marginTop:'20px',marginLeft:'50px'}} container spacing={3}>
+                 {this.state.error  &&
+            <Alert onClose={() => {
+                this.setState({
+                     error:false
+                 })
+            }} severity= "error"
+               
+        >
+                <AlertTitle>Error</AlertTitle>
+                <strong>{this.state.error.message}</strong>
+            </Alert>
+            }
                     {this.state.appointments !== null ?
                             this.state.counselors.map((counselor,index) => (
                                     <CounselorCard style={{marginTop:'20px',width:'300px'}} key={index}  counselors={counselor}/>

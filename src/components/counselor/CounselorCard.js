@@ -64,12 +64,12 @@ class CounselorCard extends Component {
             
             <CardContent style={{height:''}}>
 
-                <Avatar style={{width:'150px',height:'150px',marginLeft:'30%',marginTop:'-30px',marginBottom:'30px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
+                <Avatar style={{width:'200px',height:'200px',marginLeft:'30%',marginTop:'-30px',marginBottom:'30px'}} alt="Remy Sharp" src={this.props.counselors.image } />
                 <Typography variant="body2" color="textSecondary" >
                     Description : {this.props.counselors.description}
                 </Typography>
                  <Typography variant="body2" color="textSecondary" >
-                    Age : {this.props.counselors.age}
+                    Email : {this.props.counselors.email}
                 </Typography>
                  <Typography variant="body2" color="textSecondary" >
                     City : {this.props.counselors.city}

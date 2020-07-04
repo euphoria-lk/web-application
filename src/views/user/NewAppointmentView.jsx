@@ -49,17 +49,21 @@ class NewAppointmentView extends Component {
     onSubmit=(e)=>{
         e.preventDefault();
         console.log("datetime"+this.state.startTime);
-            
+            const body ={
+
+            }
         
         axios.post('http://localhost:5000/api/v1/counselling-service/counsellor/appointments',JSON.stringify(this.state),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
                 if(result.message){
                     this.setState({
+                        success:false,
                         error:result
                     })
                 }else{
                 this.setState({
+                    error:false,
                      success: true
             })
               setTimeout(() => {
