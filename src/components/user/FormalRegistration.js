@@ -4,15 +4,18 @@ import {Button} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import {Form,Col} from 'react-bootstrap';
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import {validateFormalSignUp} from '../../validations/PatientSignUpValidation';
 import axios from 'axios';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel'
 
 class FormalRegistration extends Component {
     constructor(props){
         super(props);
         this.state={
-            gender:'',
+            gender:'Male',
             firstname:'',
             lastname:'',
             email:'',
@@ -24,15 +27,18 @@ class FormalRegistration extends Component {
             city:'',
             district:'',
             errors:{},
-            isLoading:false
+            isLoading:false,
+            error:'',
+            success:false
         }
     }
     
     onChange=(e)=>{
-        console.log(e.target.value)
-        console.log(e.target.name)
+        
         this.setState({[e.target.name]:e.target.value})
-        console.log(this.state)
+        
+        
+        
     }
     isValid=()=>{
         const{errors,isValid}=validateFormalSignUp(this.state);
@@ -43,6 +49,7 @@ class FormalRegistration extends Component {
         return isValid;
     }
     onSubmit=(e)=>{
+       
         e.preventDefault();
         console.log("shit");
         
@@ -50,14 +57,44 @@ class FormalRegistration extends Component {
             console.log("ho");
             this.setState({errors:{}});
             console.log(this.state);
-            axios.post('',JSON.stringify(this.state),{headers: {
+            const body={
+                firstname:this.state.firstname,
+                lastname:this.state.lastname,
+                email:this.state.email,
+                gender:this.state.gender,
+                contact:this.state.contact,
+                district:this.state.district,
+                password:this.state.password,
+                nic:this.state.nic,
+                dob:this.state.dob,
+                city:this.state.city,
+            }
+            axios.post('http://localhost:5000/api/v1/client-service/signup',JSON.stringify(body),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
-                    window.location.replace("/user/signup-success");
+                    if(result.data.message && result.status === 200){
+                        this.setState({
+                            error:{
+                                message:result.data.message
+                            }
+                        })
+                    }
+                    else{
+                        this.setState({
+                            success:true
+                        })
+                           setTimeout(() => 
+                           {window.location.replace("/user/login");
+                         }, 2000);
+                    
+                       
+                    }
                 }, function(error) {
                     console.log(error);
                 }).catch(err=>{
-                    alert("something went wrong with the registration");
+                    this.setState({
+                        error:err
+                    })
                 });
         }else{
             this.setState({})
@@ -84,42 +121,33 @@ class FormalRegistration extends Component {
             width: 200,
             },
         }));
-        const list1=[
-             { title: 'Male' },
-             { title: 'Female' },
-             { title: 'Other' }
-        ];
-
-        const list2=[
-            {title:'Matara'},
-            {title:'Ampara'},
-            {title:'Badulla'},
-            {title:'Anuradhapura'},
-            {title:'Batticaloa'},
-            {title:'Colombo'},
-            {title:'Galle'},
-            {title:'Gampaha'},
-            {title:'Hambantota'},
-            {title:'Jaffna'},
-            {title:'Kalutara'},
-            {title:'Kilinochchi'},
-            {title:'Kegalle'},
-            {title:'Kandy'},
-            {title:'Mannar'},
-            {title:'Kurunegala'},
-            {title:'Matale'},
-            {title:'Mannar'},
-            {title:'Nuwara Eliya'},
-            {title:'Mullaitivu'},
-            {title:'Moneragala'},
-            {title:'Polonnaruwa'},
-            {title:'Puttalam'},
-            {title:'Trincomalee'},
-            {title:'Vavuniya'},
-            {title:'Ratnapura'}
-
-        ];
+        
         return (
+            <div>
+             { this.state.error  &&
+                    <Alert onClose={() => {
+                        this.setState({
+                            error:false
+                        })
+                        console.log("clicked");
+                    }} severity= "error"
+                    
+                >
+                     <AlertTitle>Error</AlertTitle>
+                     <strong>{this.state.error.message}</strong>
+                    </Alert>
+            }
+                { this.state.success  && 
+                 <Alert  severity="success"
+                    onClose={() => {
+                    this.setState({
+                        success:false
+                 })
+            }}>
+            <AlertTitle>Success</AlertTitle>
+             <strong>Formal User Registered successfully</strong>
+            </Alert>
+            }
                 <Form onSubmit={this.onSubmit}>
                     
                     
@@ -130,6 +158,7 @@ class FormalRegistration extends Component {
                                         label="First Name"
                                         className={useStyles.textField}
                                         type="text"
+                                        defaultValue="Male"
                                         name="firstname"
                                         autoComplete="firstname"
                                         margin="none"
@@ -139,7 +168,6 @@ class FormalRegistration extends Component {
                                         value={this.state.firstname} 
                                     />
                                     <br/>
-                        <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                         {errors.firstname && <span style={{color:'red'}} className="help-block">{errors.firstname}</span>}
                         </Form.Group>
 
@@ -164,16 +192,17 @@ class FormalRegistration extends Component {
                         </Form.Row>
                         <Form.Row>
                          <Form.Group as={Col} md="4" controlId="validationCustom01">
-                           
-                                     <Autocomplete
-                                        id="gender"
+                          <TextField
+                                        label="Gender"
+                                        className={useStyles.textField}
+                                        type="text"
                                         name="gender"
+                                        autoComplete="gender"
+                                        margin="none"
+                                        variant="outlined"
+                                        style={{width:'300px',marginTop:'10px'}}
                                         onChange={this.onChange}
-                                        options={list1}
-                                        getOptionLabel={(option) => option.title}
-                                        style={{ width:'300px',marginRight:'50px',marginTop:'15px   ' }}
-                                        renderInput={(params) => <TextField {...params} label="Gender" variant="outlined" />}
-                                        />
+                                        value={this.state.gender} />
                                         <br/>
                                         {errors.gender && <span style={{color:'red'}} className="help-block">{errors.gender}</span>}
                          </Form.Group>
@@ -189,10 +218,10 @@ class FormalRegistration extends Component {
                                     variant="outlined"
                                     onChange={this.onChange}
                                     value={this.state.email}
-                                    style={{width:'500px',marginLeft:'50px',marginTop:'15px'}}
+                                    style={{width:'500px',marginLeft:'50px',marginTop:'10px'}}
                                 />
                                 <br/>
-                        {errors.email && <span style={{color:'red'}} className="help-block">{errors.email}</span>}
+                        {errors.email && <span style={{color:'red',marginLeft:'50px'}} className="help-block">{errors.email}</span>}
                          </Form.Group>
                          </Form.Row>
                      
@@ -215,7 +244,7 @@ class FormalRegistration extends Component {
                                 style={{width:'350px',marginRight:'60px',marginLeft:'200px'}}
                             />
                             <br/>
-                        {errors.password && <span style={{color:'red'}} className="help-block">{errors.password}<br></br></span> }
+                        {errors.password && <span style={{color:'red',marginLeft:'200px'}} className="help-block">{errors.password}<br></br></span> }
                         </div>
                         </Form.Group>
                         <Form.Group as={Col} md="4" controlId="validationCustom05">
@@ -325,16 +354,22 @@ class FormalRegistration extends Component {
                             <Form.Group as={Col} md="4" controlId="validationCustom04">
                                 
                                 
-                                  
-                                     <Autocomplete
-                                        id="district"
+                                    <TextField
+                                        label="district"
+                                        className={useStyles.textField}
+                                        type="text"
                                         name="district"
-                                         onChange={this.onChange}
-                                        options={list2}
-                                        getOptionLabel={(option) => option.title}
-                                        style={{ width: 300 }}
-                                        renderInput={(params) => <TextField {...params} label="District" variant="outlined" />}
-                                        />
+                                        autoComplete="district"
+                                        margin="none"
+                                        variant="outlined"
+                                        style={{ width: '300px' }}
+                                        onChange={this.onChange}
+                                        value={this.state.district}
+                                    />
+                                    <br/>
+                                    {errors.district && <span style={{color:'red'}} className="help-block">{errors.district}</span>}
+                                  
+                                    
                                     <br/>       
                                     
                             </Form.Group>
@@ -358,6 +393,7 @@ class FormalRegistration extends Component {
                             </Button>
                                                     
                     </Form> 
+                    </div>
             
         )
     }

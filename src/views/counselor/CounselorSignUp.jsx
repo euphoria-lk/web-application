@@ -121,25 +121,7 @@ class CounselorSignUp extends Component {
         if(this.isValid()){
             console.log("ho");
             this.setState({errors:{}});
-       
-
-            //  axios.post('http://localhost:5000/api/v1/counsellor-service/counsellor/signup',JSON.stringify(this.state),{headers: {
-            // 'Content-Type': 'application/json',
-            // }}).then( result => {
-            //     this.setState({
-            //         success: true
-            //     })
-            //     setTimeout(() => {
-            //         window.location.replace("/counselor/login");
-            //     }, 2000);
-
-                
-             
-            //  }).catch(err=>{
-            //      this.setState({
-            //          error:err
-            //      });
-            //  })
+    
             const body ={
                 name:this.state.name,
                 email:this.state.email,
@@ -161,6 +143,7 @@ class CounselorSignUp extends Component {
                  })
                 }else{
                  this.setState({
+                     error:false,
                      success: true
             })
               setTimeout(() => {

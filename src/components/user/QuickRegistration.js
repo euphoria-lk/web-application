@@ -3,14 +3,14 @@ import React, { Component } from 'react'
 
 import { FormControl,FormGroup,Button,Box } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
-
+import IconButton from '@material-ui/core/IconButton';
 import {Form,Tab,Nav} from 'react-bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import {axios} from 'axios';
+import axios from 'axios';
 import {validateQuickSignUp} from '../../validations/PatientSignUpValidation';
 import { Redirect } from 'react-router-dom';
-
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 
 
@@ -24,7 +24,9 @@ class QuickRegistration extends Component {
             passwordConfirmation:'',
             errors:{},
             isLoading:false,
-            accountType:''
+            accountType:'',
+            error:'',
+            success:false
         }
     }
     
@@ -42,19 +44,38 @@ class QuickRegistration extends Component {
     
     onSubmit=(e)=>{
         e.preventDefault();
-        console.log("shit");
         
         if(this.isValid()){
             console.log("ho");
             this.setState({errors:{},accountType:'quick'});
+            const body ={
+                email:this.state.email,
+                password:this.state.password
+            }
 
-            axios.post('',JSON.stringify(this.state),{headers: {
+            axios.post('http://localhost:5000/api/v1/client-service/signup',JSON.stringify(body),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
-                window.location.replace("/user/signupsuccess");
-             }, function(error) {
-                alert('Error occured');
+                if(result.data.message && result.status === 200){
+                    this.setState({
+                        error:result.data
+                    })
+                }else{
+                 this.setState({
+                     error:false,
+                     success: true
+                })
+              setTimeout(() => {
+               window.location.replace("/user/login");
+                }, 2000);
+                }
+
                 
+             }).catch(err=>{
+                 this.setState({
+                     error:err
+                 })
+
              });
         }
     }
@@ -77,7 +98,33 @@ class QuickRegistration extends Component {
             width: 200,
             },
         }));
-        return (
+        return ( 
+            <div>
+            { this.state.error  &&
+                    <Alert onClose={() => {
+                        this.setState({
+                            error:false
+                        })
+                        console.log("clicked");
+                    }} severity= "error"
+                    
+                >
+                     <AlertTitle>Error</AlertTitle>
+                     <strong>{this.state.error.message}</strong>
+                    </Alert>
+            }
+                { this.state.success  && 
+                 <Alert  severity="success"
+                    onClose={() => {
+                    this.setState({
+                        success:false
+                 })
+            }}>
+            <AlertTitle>Success</AlertTitle>
+             <strong>Quick User Registered successfully</strong>
+            </Alert>
+            }
+                
         
                 <Form onSubmit={this.onSubmit}>
                     <Form.Label>Email</Form.Label>
@@ -160,7 +207,7 @@ class QuickRegistration extends Component {
                         </Form.Group>
                             
                     </Form> 
-            
+            </div>
         )
     }
 }
