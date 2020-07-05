@@ -8,6 +8,7 @@ import {TitleComponent} from '../../components/common/Title'
 import { Alert, AlertTitle } from '@material-ui/lab';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import localService from '../../localStorageService'
 
 const axios = require('axios').default;
 
@@ -21,6 +22,11 @@ class CounselorAppointments extends Component {
             counselors: [],
             error:'',
         };
+    }
+    componentWillMount(){
+        if(!localService.getToken()){
+            window.location.replace("/user/login");
+        }
     }
 
 
