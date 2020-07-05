@@ -42,7 +42,7 @@ export default function CounselorNavigation() {
                     <Nav className={"mr-auto"}>
                             
                             <Typography>
-                           <Nav.Link style={{color:'white'}} href="http://localhost:3000/counselor/">Patients</Nav.Link>
+                           <Nav.Link style={{color:'white'}} href="#">Patients</Nav.Link>
                             </Typography>
                            
                         </Nav>

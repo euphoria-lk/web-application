@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import {Nav} from 'react-bootstrap';
 
 const useStyles = makeStyles((theme) => ({
         root: {
@@ -33,6 +34,9 @@ export default function NavBarLandingPage() {
                     <Typography variant="h6" className={Classes.title}>
                         Euphoria
                     </Typography>
+                        <Typography>
+                           <Nav.Link style={{color:'white',marginRight:'10px'}} href="/user/counselors">New Appointment</Nav.Link>
+                            </Typography>
                     {/* <Avatar style={{marginLeft:'10px',marginRight:'10px'}} alt={user.firstname}   /> */}
                     <Avatar  style={{backgroundColor:'grey',width:"50px",height:"50px",marginRight:'10px'}} aria-label="recipe" >
                    {firstname.toString().substring(0, 1).toUpperCase()}
