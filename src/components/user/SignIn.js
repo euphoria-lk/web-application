@@ -103,7 +103,7 @@ class SignIn extends Component{
         localStorage.setItem("firstname",res.data.user_profile.firstname);
         localStorage.setItem("lastname",res.data.user_profile.lastname);
         setTimeout(() => {
-               window.location.replace('/user/counselors')
+               window.location.replace('/user/home')
                 }, 2000);
       }
        
