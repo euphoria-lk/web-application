@@ -102,7 +102,7 @@ class CounselorSignIn extends Component{
         localStorage.setItem("counselor_email",res.data.counselor_profile.email);
         localStorage.setItem("counselor_image",res.data.counselor_profile.image);
         setTimeout(() => {
-              //  window.location.replace('/user/counselors')
+               window.location.replace('/counselor/home')
                 }, 2000);
 
       }
