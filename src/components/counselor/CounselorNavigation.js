@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CounselorNavigation() {
      
      const Classes=useStyles();
+     const image = localStorage.getItem('counselor_image');
     
         return (
           
@@ -39,16 +40,14 @@ export default function CounselorNavigation() {
                         Euphoria
                     </Typography>
                     <Nav className={"mr-auto"}>
-                            <Typography>
-                            <Nav.Link style={{color:'white'}} href="http://localhost:3000/counselor/">New Appointments</Nav.Link>
-                            </Typography>
+                            
                             <Typography>
                            <Nav.Link style={{color:'white'}} href="http://localhost:3000/counselor/">Patients</Nav.Link>
                             </Typography>
                            
                         </Nav>
                          
-                         <Avatar style={{marginLeft:'10px',marginRight:'10px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
+                         <Avatar style={{marginLeft:'10px',marginRight:'10px'}} alt="Remy Sharp" src={image}  />
                          <Button href="" color="inherit">LogOut</Button>
                     </Toolbar>
                 </AppBar>

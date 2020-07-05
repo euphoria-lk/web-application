@@ -35,7 +35,8 @@ class NewAppointmentView extends Component {
             email:'',
             error:'',
             open:true,
-            success:false
+            success:false,
+            image:''
         }
         
         
@@ -53,7 +54,7 @@ class NewAppointmentView extends Component {
 
             }
         
-        axios.post('http://localhost:5000/api/v1/counselling-service/counsellor/appointments',JSON.stringify(this.state),{headers: {
+        axios.post('http://localhost:5002/api/v1/counselling-service/counsellor/appointments',JSON.stringify(this.state),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
                 if(result.message){
@@ -82,7 +83,11 @@ class NewAppointmentView extends Component {
     }
     componentWillMount() {
             this.state.counselor=this.props.match.params.name;
-            axios.get('http://localhost:5000/api/v1/counsellor-service/counsellor/'+this.state.counselor,{headers: {
+            this.setState({
+                firstname:localStorage.getItem('firstname'),
+                lastname:localStorage.getItem('lastname')
+            })
+            axios.get('http://localhost:5001/api/v1/counsellor-service/counsellor/'+this.state.counselor,{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
                 console.log(result.data);
@@ -94,7 +99,8 @@ class NewAppointmentView extends Component {
                 this.setState({
                 counselor:result.data.name,
                 speciality:result.data.speciality,
-                email:result.data.email
+                email:result.data.email,
+                image:result.data.image
             })
                 }
              
@@ -162,7 +168,7 @@ class NewAppointmentView extends Component {
             }
                 <Row>
                 <Col xs={6}>
-                 <Avatar style={{width:'250px',height:'250px',marginLeft:'30%',marginTop:'30%',marginBottom:'30px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
+                 <Avatar style={{width:'350px',height:'300px',marginLeft:'30%',marginTop:'30%',marginBottom:'30px'}} alt={this.state.counselor} src={this.state.image}  />
                 <h4 style={{marginLeft:"30%",fontFamily:"Inconsolata"}}>Name : {this.state.counselor} </h4>
                  <h4 style={{marginLeft:"30%",fontFamily:"Inconsolata"}}>Speciality : {this.state.speciality} </h4>
                  <h4 style={{marginLeft:"30%",fontFamily:"Inconsolata"}}>Email : {this.state.email} </h4>
@@ -177,7 +183,7 @@ class NewAppointmentView extends Component {
                         <Form.Group controlId="formfirstnameq">
                             <TextField
                                 required
-                                
+                                disabled
                                 id="firstnameq"
                                 label=" First Name"
                                 className={useStyles.textField}
@@ -197,7 +203,7 @@ class NewAppointmentView extends Component {
                         <Form.Group controlId="formlastnameq">
                             <TextField
                                 required
-                                
+                                disabled
                                 id="lastnameq"
                                 label=" Last Name"
                                 className={useStyles.textField}

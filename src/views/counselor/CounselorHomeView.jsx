@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Grid} from '@material-ui/core'
-import NavBarLandingPage from "../../components/common/NavBarLandingPage";
-import CounselorCard from "../../components/counselor/CounselorCard";
+import CounselorNavigation from "../../components/counselor/CounselorNavigation";
+import AppointmentCard from "../../components/counselor/AppointmentCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import {TitleComponent} from '../../components/common/Title'
@@ -12,39 +12,58 @@ import localService from '../../localStorageService'
 
 const axios = require('axios').default;
 
-class CounselorAppointments extends Component {
+class CounselorHomeView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
-            counselors: [],
+            appointments: [],
             error:'',
+            user:'',
+            
         };
     }
     componentWillMount(){
-        // if(!localStorage.getItem('token')){
-        //     window.location.replace("/user/login");
-        // }
-    }
-
-
-    componentDidMount(){
-        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/6',
+     
+           const email = localStorage.getItem('counselor_email');
+        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/profile/'+email,
             {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             }).then((response) => {
+                console.log(response.data);
                 this.setState({
-                    counselors:response.data,
+                    appointments:response.data,
                 })
             }).catch((err) => {
                 this.setState({
                     error:err
                 })
             })
+            console.log("this is appointments"+this.state.appointments.length)
+    }
+ 
+
+
+    componentDidMount(){
+        // const email = localStorage.getItem('counselor_email');
+        // axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/profile/'+email,
+        //     {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         }
+        //     }).then((response) => {
+        //         this.setState({
+        //             appointments:response.data,
+        //         })
+        //     }).catch((err) => {
+        //         this.setState({
+        //             error:err
+        //         })
+        //     })
     };
 
     render() {
@@ -58,8 +77,9 @@ class CounselorAppointments extends Component {
             }));
         return (
             <div>
-                <NavBarLandingPage></NavBarLandingPage>
-                 <TitleComponent title="Counselors | User" />
+                <CounselorNavigation></CounselorNavigation>
+                 <TitleComponent title="Appointments | Counselor" />
+                 <h2 style={{textalign:"center",marginLeft:'30%',marginTop:'20px'}}>Upcoming Appointments </h2>
                 <Grid style={{marginTop:'20px',marginLeft:'50px'}} container spacing={3}>
                  {this.state.error  &&
             <Alert style={{textalign:'center',marginLeft:'35%'}} onClose={() => {
@@ -74,8 +94,8 @@ class CounselorAppointments extends Component {
             </Alert>
             }
                     {this.state.appointments !== null ?
-                            this.state.counselors.map((counselor,index) => (
-                                    <CounselorCard style={{marginTop:'20px',width:'300px'}} key={index}  counselors={counselor}/>
+                            this.state.appointments.map((appointment,index) => (
+                                    <AppointmentCard style={{marginTop:'20px',width:'300px'}} key={index}  appointments={appointment}/>
                             )) :  <div  style={{textalign:'center',width:'300px',height:'300px'}} className={classes.root}>
                             <CircularProgress />
                             </div>
@@ -87,4 +107,4 @@ class CounselorAppointments extends Component {
     };
 }
 
-export default CounselorAppointments;
+export default CounselorHomeView;

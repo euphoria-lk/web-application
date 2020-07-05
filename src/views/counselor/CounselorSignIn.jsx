@@ -85,23 +85,32 @@ class CounselorSignIn extends Component{
       email:this.state.email,
       password:this.state.password
     }
-    axios.post('',JSON.stringify(body),{headers: {
+    axios.post('http://localhost:5001/api/v1/counsellor-service/counsellor/login',JSON.stringify(body),{headers: {
         'Content-Type': 'application/json',
     }})
     .then((res)=>{
+      console.log(res);
+      if(res.data.message && res.status === 200){
         this.setState({
+          error:res.data
+        })
+      }else{
+         this.setState({
           success:true,
           error:false
         })
-         console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+        localStorage.setItem("counselor_email",res.data.counselor_profile.email);
+        localStorage.setItem("counselor_image",res.data.counselor_profile.image);
+        setTimeout(() => {
+              //  window.location.replace('/user/counselors')
+                }, 2000);
 
-        // window.location.replace('/counselor/homepage')
+      }
+       
     }).catch(err=>{
       this.setState({
         error:{
-          message:"username or password incorrect"
+          message:err
         }
       })
 

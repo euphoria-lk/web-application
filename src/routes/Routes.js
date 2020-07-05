@@ -7,6 +7,7 @@ import CounselorSignIn from '../views/counselor/CounselorSignIn';
 import CounselorSignUp from '../views/counselor/CounselorSignUp';
 import CouneselorsView from '../views/counselor/CounselorsView';
 import NewAppointmentView from '../views/user/NewAppointmentView';
+import CounselorHomeView from '../views/counselor/CounselorHomeView';
 
 export default class Routes extends Component {
     render() {
@@ -18,6 +19,7 @@ export default class Routes extends Component {
               <Route exact path="/counselor/signup" component={CounselorSignUp}/>
               <Route exact path="/user/counselors" component={CouneselorsView}/>
               <Route exact path="/user/appointments/:name" component={NewAppointmentView}/>
+              <Route exact path="/counselor/home" component={CounselorHomeView}/>
                <Redirect to="/user/login"/>
             </Switch>
         )
