@@ -76,8 +76,8 @@ class CounselorAppointments extends Component {
                     {this.state.counselors .length>0 ?
                             this.state.counselors.map((counselor,index) => (
                                     <CounselorCard style={{marginTop:'20px',width:'300px'}} key={index}  counselors={counselor}/>
-                            )) :  <div  style={{textalign:'center',width:'300px',height:'300px'}} className={classes.root}>
-                            <CircularProgress />
+                            )) :  <div  style={{textalign:'center',width:'100%',height:'300px'}} className={classes.root}>
+                            <CircularProgress style={{marginLeft:'40%',width:'300px',height:'300px',marginTop:'50px'}} />
                             </div>
                     }
                 </Grid>

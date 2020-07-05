@@ -39,17 +39,20 @@ class CounselorHomeView extends Component {
                     this.setState({
                         show:false
                     })
-                }
+                }else{
                 this.setState({
                     appointments:response.data,
+                    show:true
                 })
-                console.log('show'+this.state.appointments.length!=null)
-                if(this.state.appointments.length!=null){
-                    
-                     this.setState({
-                         show:false
-                     })
                 }
+              
+                // console.log('show'+this.state.appointments.length!=null)
+                // if(this.state.appointments.length!=null){
+                    
+                //      this.setState({
+                //          show:false
+                //      })
+                // }
             }).catch((err) => {
                 this.setState({
                     error:err
