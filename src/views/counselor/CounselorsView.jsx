@@ -73,7 +73,7 @@ class CounselorAppointments extends Component {
                 <strong>{this.state.error.message}</strong>
             </Alert>
             }
-                    {this.state.appointments !== null ?
+                    {this.state.counselors .length>0 ?
                             this.state.counselors.map((counselor,index) => (
                                     <CounselorCard style={{marginTop:'20px',width:'300px'}} key={index}  counselors={counselor}/>
                             )) :  <div  style={{textalign:'center',width:'300px',height:'300px'}} className={classes.root}>

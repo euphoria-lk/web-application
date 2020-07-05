@@ -75,12 +75,14 @@ class FormalRegistration extends Component {
                         this.setState({
                             error:{
                                 message:result.data.message
-                            }
+                            },
+                            success:false
                         })
                     }
                     else{
                         this.setState({
-                            success:true
+                            success:true,
+                            error:false
                         })
                            setTimeout(() => 
                            {window.location.replace("/user/login");
@@ -92,7 +94,8 @@ class FormalRegistration extends Component {
                     console.log(error);
                 }).catch(err=>{
                     this.setState({
-                        error:err
+                        error:err,
+                        success:false
                     })
                 });
         }else{

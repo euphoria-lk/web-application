@@ -68,7 +68,7 @@ class NewAppointmentView extends Component {
                      success: true
             })
               setTimeout(() => {
-               window.location.replace("/user/counselors");
+               window.location.replace("/user/home");
                 }, 2000);
                 
                 }
