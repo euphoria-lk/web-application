@@ -1,0 +1,13 @@
+
+#rootGrid {
+    background-image: url("../../assets/img/wallpapers/wall7.jpg");
+    background-size: cover;
+    height: 100vh;
+    width:100%;
+    align-items: center;
+    padding: 2em;
+  
+    .transparent {
+      background-color: rgba(white, 0.5);
+    }
+  }
