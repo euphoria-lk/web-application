@@ -1,0 +1,13 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <option name="FORMATTER_TAGS_ENABLED" value="true" />
+    <JSCodeStyleSettings version="0">
+      <option name="ALIGN_OBJECT_PROPERTIES" value="2" />
+      <option name="ALIGN_VAR_STATEMENTS" value="2" />
+    </JSCodeStyleSettings>
+    <JSON>
+      <option name="SPACE_BEFORE_COLON" value="true" />
+      <option name="PROPERTY_ALIGNMENT" value="2" />
+    </JSON>
+  </code_scheme>
+</component>
