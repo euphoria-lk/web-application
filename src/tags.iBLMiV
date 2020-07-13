@@ -1,0 +1,3 @@
+App	App.js	/^function App() {$/;"	f
+registerValidSW	serviceWorker.js	/^function registerValidSW(swUrl, config) {$/;"	f
+checkValidServiceWorker	serviceWorker.js	/^function checkValidServiceWorker(swUrl, config) {$/;"	f
