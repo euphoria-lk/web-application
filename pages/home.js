@@ -1,13 +1,13 @@
-import Layout from "../components/layout";
+import ClientLayout from "../components/client-layout";
 import Head from "next/head";
 
 export default function Home() {
     return(
-        <Layout>
+        <ClientLayout>
             <Head>
                 <title>Home</title>
             </Head>
             <h1>Home Page</h1>
-        </Layout>
+        </ClientLayout>
     );
 }
