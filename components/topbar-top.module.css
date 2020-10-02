@@ -15,3 +15,7 @@
 .navli{
     display: inline !important;
 }
+
+.AppBarItemsRight{
+    margin-left: auto;
+}

@@ -2,7 +2,8 @@ import React from "react";
 import {
     AppBar,
     Container,
-    Hidden, IconButton,
+    Hidden,
+    IconButton,
     InputBase,
     Link,
     List,
@@ -98,7 +99,7 @@ function ToolbarTop() {
     );
 
     const NavigationLinksList = () => {
-        const inline=state.drawerOpen?null:styles.navli;
+        const inline = state.drawerOpen ? null : styles.navli;
         return (
             <Typography>
                 <List>
@@ -126,14 +127,16 @@ function ToolbarTop() {
             {/*    <img src="/euphoria-v2-text.png" alt="Euphoria" className={styles.logo}/>*/}
             {/*</Hidden>*/}
             <Hidden implementation="js" mdUp>
-                <IconButton onClick={toggleDrawer(true)}>
-                    <MenuIcon/>
-                </IconButton>
-                <SwipeableDrawer anchor='right' open={state.drawerOpen} onOpen={toggleDrawer(true)}
-                                 onClose={toggleDrawer(false)} onClick={toggleDrawer(false)}
-                                 onKeyDown={toggleDrawer(false)}>
-                    <NavigationLinksList/>
-                </SwipeableDrawer>
+                <div className={styles.AppBarItemsRight}>
+                    <IconButton onClick={toggleDrawer(true)} edge={"end"}>
+                        <MenuIcon/>
+                    </IconButton>
+                    <SwipeableDrawer anchor='right' open={state.drawerOpen} onOpen={toggleDrawer(true)}
+                                     onClose={toggleDrawer(false)} onClick={toggleDrawer(false)}
+                                     onKeyDown={toggleDrawer(false)}>
+                        <NavigationLinksList/>
+                    </SwipeableDrawer>
+                </div>
             </Hidden>
         </React.Fragment>
     );
@@ -144,7 +147,6 @@ function ToolbarTop() {
                 <Toolbar>
                     {renderLogo}
                     {searchBar}
-                    {/*{navigationLinksList}*/}
                     {navigation}
                 </Toolbar>
             </Container>
