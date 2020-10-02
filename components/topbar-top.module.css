@@ -1,0 +1,17 @@
+.logo {
+    height: 2em;
+    /*box-shadow: white 5px 5px;*/
+}
+
+.MuiAppBarRoot {
+    background: linear-gradient(90deg, #CCFFE6, #CCE5FF);
+    color: black;
+}
+
+.MuiLink {
+    margin-left: 1em !important;
+}
+
+.navli{
+    display: inline !important;
+}
