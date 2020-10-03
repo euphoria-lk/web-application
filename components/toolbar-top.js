@@ -98,6 +98,9 @@ function ToolbarTop() {
         </div>
     );
 
+    /*
+    * List of Navigation Links that is used in navigation through modules
+    * */
     const NavigationLinksList = () => {
         const inline = state.drawerOpen ? null : styles.navli;
         return (
@@ -114,18 +117,22 @@ function ToolbarTop() {
         );
     }
 
+    /*
+    * Changes the drawer state.
+    * */
     const toggleDrawer = (open) => () => {
         setState({...state, drawerOpen: open})
     }
 
+    /*
+    * Layout of the navigation. To change the navigation links change NavigationLinksList
+    * Renders as a bar in mdUp devices and as a drawer in smaller screens
+    * */
     const navigation = (
         <React.Fragment>
             <Hidden implementation="js" smDown>
                 <NavigationLinksList/>
             </Hidden>
-            {/*<Hidden implementation="js" only={["xs", "md", "lg", "xl"]}>*/}
-            {/*    <img src="/euphoria-v2-text.png" alt="Euphoria" className={styles.logo}/>*/}
-            {/*</Hidden>*/}
             <Hidden implementation="js" mdUp>
                 <div className={styles.AppBarItemsRight}>
                     <IconButton onClick={toggleDrawer(true)} edge={"end"}>
