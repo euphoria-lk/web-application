@@ -226,7 +226,7 @@ class CounselorSignUp extends Component {
                                 <Row>
                                 <Col xs={this.state.colSize}>
                                     {this.state.uploaded &&
-                                    <Avatar alt="logo" src={this.state.image} style={{marginTop: 30,width: 60, height: 60, marginTop:'-10px', marginLeft:'80%'}} />
+                                    <Avatar alt="logo" src={this.state.image} style={{marginTop: 30,width: 60, height: 60, /*marginTop:'-10px',*/ marginLeft:'80%'}} />
                                      }
                                 </Col>
                                 <Col xs={12- this.state.colSize} style={{marginLeft:''}}>

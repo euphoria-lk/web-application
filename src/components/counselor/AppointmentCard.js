@@ -47,7 +47,7 @@ class CounselorCard extends Component {
             },
             media: {
                 height: 0,
-                paddingTop: '56.25%', 
+                /*paddingTop: '56.25%',*/
                 paddingTop: '81.25%',
                 borderRadius: '50%',
                 margin: '28px'

@@ -14,7 +14,7 @@ class CounselorAppointments extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: null,
+/*            error: null,*/
             isLoaded: false,
             counselors: [],
             error: '',
@@ -29,7 +29,7 @@ class CounselorAppointments extends Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/6',
+        axios.get('http://localhost:5002/api/v1/counsellor-service/counsellor/6',
             {
                 headers: {
                     'Content-Type': 'application/json',

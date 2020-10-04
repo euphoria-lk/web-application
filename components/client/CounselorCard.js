@@ -1,89 +1,124 @@
 import React, {Component} from 'react'
-import {Avatar, Card, CardContent, CardHeader} from '@material-ui/core'
+import {Card, CardContent, Divider, Grid, Avatar, Button} from '@material-ui/core'
 import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import {makeStyles} from '@material-ui/core/styles';
-import {Link as RouterLink} from 'react-router-dom'
-import Link from '@material-ui/core/Link'
+import {makeStyles, withStyles} from '@material-ui/core/styles';
+
+// import {Link as RouterLink} from 'react-router-dom'
+
+// const styles = (theme) => ({
+//     root      : {
+//         // maxWidth: 345,
+//         marginTop: '20px',
+//         width    : "300px"
+//     },
+//     media     : {
+//         height      : 0,
+//         paddingTop  : '56.25%',
+//         // paddingTop: '81.25%',
+//         borderRadius: '50%',
+//         margin      : '28px'
+//     },
+//     expand    : {
+//         transform : 'rotate(0deg)',
+//         marginLeft: 'auto',
+//         transition: theme.transitions.create('transform', {
+//             duration: theme.transitions.duration.shortest,
+//         }),
+//     },
+//     expandOpen: {
+//         transform: 'rotate(180deg)',
+//     },
+//     large     : {
+//         width : theme.spacing(10),
+//         height: theme.spacing(10),
+//         // marginLeft:
+//     },
+//
+// });
 
 class CounselorCard extends Component {
+
+
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            counselors: {
+                name         : 'Missaka Prasajith Iddamalgoda',
+                speciality   : 'Counselling, Therapist',
+                qualification: 'MBBS',
+                image        : '/euphoria-v2-art.png',
+                description  : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab amet' +
+                    'architecto assumenda distinctio dolorem ducimus eaque odio sunt, ullam! Eligendi impedit' +
+                    'itaque nemo provident quidem quo repudiandae sapiente tempora vel.',
+                email        : 'm.iddamalgoda@gmail.com',
+                city         : 'Colombo'
+            }
+        }
+    }
 
     handleClick = () => {
         this.setState({'status': 'Approved'})
     }
 
     render() {
-        const classes = makeStyles((theme) => ({
-            root: {
-                // maxWidth: 345,
-                marginTop: '20px',
-                width: "300px"
-            },
-            media: {
-                height: 0,
-                paddingTop: '56.25%',
-                // paddingTop: '81.25%',
-                borderRadius: '50%',
-                margin: '28px'
-            },
-            expand: {
-                transform: 'rotate(0deg)',
-                marginLeft: 'auto',
-                transition: theme.transitions.create('transform', {
-                    duration: theme.transitions.duration.shortest,
-                }),
-            },
-            expandOpen: {
-                transform: 'rotate(180deg)',
-            },
-            large: {
-                width: theme.spacing(10),
-                height: theme.spacing(10),
-                // marginLeft:
-            },
 
-        }));
+        // const {classes} = this.props;
 
-        const tolink = '/user/appointments/' + this.props.counselors.name;
+        // const tolink = '/user/appointments/' + this.state.counselors.name;
         return (
-            <Link underline='none' component={RouterLink} to={tolink}>
-                <Card style={{width: '500px', height: '400px', margin: '10px'}} className={classes.root}>
-                    <CardActionArea>
-                        <CardHeader
-                            avatar={
-                                <Avatar style={{backgroundColor: 'green', width: "50px", height: "50px"}}
-                                        aria-label="recipe">
-                                    {this.props.counselors.name.toString().substring(0, 1).toUpperCase()}
-                                </Avatar>
-                            }
-                            style={{height: '30%'}}
-                            title={this.props.counselors.name}
-                            subheader={this.props.counselors.speciality}
-                        />
+
+            <Card style={{width: '500px', margin: '10px'}}>
+                {/*<CardActionArea>*/}
+                {/*<CardHeader*/}
+                {/*    avatar={*/}
+                {/*        <Avatar style={{backgroundColor: 'green', width: "50px", height: "50px"}}*/}
+                {/*                aria-label="recipe">*/}
+                {/*            MI*/}
+                {/*            /!*{this.state.counselors.name.toString().substring(0, 1).toUpperCase()}*!/*/}
+                {/*        </Avatar>*/}
+                {/*    }*/}
+                {/*    style={{height: '30%'}}*/}
+                {/*    title={this.state.counselors.name}*/}
+                {/*    subheader={this.state.counselors.speciality}*/}
+                {/*/>*/}
 
 
-                        <CardContent style={{height: ''}}>
+                <CardContent>
 
-                            <Avatar style={{
-                                width: '200px',
-                                height: '200px',
-                                marginLeft: '30%',
-                                marginTop: '-30px',
-                                marginBottom: '30px'
-                            }} alt="Remy Sharp" src={this.props.counselors.image}/>
-                            <Typography variant="body2" color="textSecondary">
-                                Description : {this.props.counselors.description}
+                    <Grid container spacing='1'>
+                        <Grid item xs={4}>
+                            {/*<img src={'/euphoria-v2-art.png'} style={{width:'100%'}}/>*/}
+                            <Avatar style={{width: '100%', maxWidth: '150px', height: "auto", maxHeight: '150px'}}
+                                    alt="Remy Sharp" src={'/person.jpg'}/>
+                        </Grid>
+                        <Grid item xs={8} alignContent={"center"} alignItems={"center"}>
+                            <Typography variant="h4" component="h3">
+                                {this.state.counselors.name}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                Email : {this.props.counselors.email}
+                            {/*<Divider/>*/}
+                            <Typography variant='h5' component='h4' color="textSecondary">
+                                {this.state.counselors.speciality}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary">
-                                City : {this.props.counselors.city}
+                            <Typography variant='h6' component='h5' color="textSecondary">
+                                {this.state.counselors.qualification}
                             </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-            </Link>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Divider/>
+                            <Typography variant="body2" color="textSecondary">
+                                {this.state.counselors.description}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button variant='contained' color='primary' style={{marginLeft: 'auto', float: 'right'}}>Book
+                                Now</Button>
+                        </Grid>
+                    </Grid>
+
+                </CardContent>
+                {/*</CardActionArea>*/}
+            </Card>
         );
     };
 }
