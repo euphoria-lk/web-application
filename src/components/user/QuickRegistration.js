@@ -58,7 +58,8 @@ class QuickRegistration extends Component {
             }}).then( result => {
                 if(result.data.message && result.status === 200){
                     this.setState({
-                        error:result.data
+                        error:result.data,
+                        success:false
                     })
                 }else{
                  this.setState({

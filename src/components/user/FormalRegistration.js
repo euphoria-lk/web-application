@@ -51,9 +51,8 @@ class FormalRegistration extends Component {
     onSubmit=(e)=>{
        
         e.preventDefault();
-        console.log("shit");
         
-        if(this.isValid()){
+        if(true){
             console.log("ho");
             this.setState({errors:{}});
             console.log(this.state);
@@ -76,12 +75,14 @@ class FormalRegistration extends Component {
                         this.setState({
                             error:{
                                 message:result.data.message
-                            }
+                            },
+                            success:false
                         })
                     }
                     else{
                         this.setState({
-                            success:true
+                            success:true,
+                            error:false
                         })
                            setTimeout(() => 
                            {window.location.replace("/user/login");
@@ -93,7 +94,8 @@ class FormalRegistration extends Component {
                     console.log(error);
                 }).catch(err=>{
                     this.setState({
-                        error:err
+                        error:err,
+                        success:false
                     })
                 });
         }else{
@@ -155,6 +157,7 @@ class FormalRegistration extends Component {
                         <Form.Group as={Col} md="6" controlId="validationCustom01">
                         
                                     <TextField 
+                                        required
                                         label="First Name"
                                         className={useStyles.textField}
                                         type="text"
@@ -175,6 +178,7 @@ class FormalRegistration extends Component {
                        
                                 
                                     <TextField
+                                        required
                                         label="Last Name"
                                         className={useStyles.textField}
                                         type="text"
@@ -193,6 +197,7 @@ class FormalRegistration extends Component {
                         <Form.Row>
                          <Form.Group as={Col} md="4" controlId="validationCustom01">
                           <TextField
+                                        required
                                         label="Gender"
                                         className={useStyles.textField}
                                         type="text"
@@ -208,6 +213,7 @@ class FormalRegistration extends Component {
                          </Form.Group>
                          <Form.Group as={Col} md="3" controlId="validationCustom01">
                          <TextField
+                                    required
                                     type="email" 
                                     placeholder="Enter email" 
                                     label="Email"
@@ -231,6 +237,7 @@ class FormalRegistration extends Component {
                         <div style={{marginLeft:'-200px'}}>
                            
                             <TextField
+                                required
                                 type="password" 
                                 placeholder="Password" 
                                 label="Password"
@@ -250,6 +257,7 @@ class FormalRegistration extends Component {
                         <Form.Group as={Col} md="4" controlId="validationCustom05">
                             
                                     <TextField
+                                    required
                                     type="password" 
                                     placeholder="Password Confirmation" 
                                     label="Re-type Password"
@@ -272,6 +280,7 @@ class FormalRegistration extends Component {
                            
                             
                                     <TextField 
+                                        required
                                         label="Contact Number"
                                         className={useStyles.textField}
                                         type="text"
@@ -292,6 +301,7 @@ class FormalRegistration extends Component {
 
                             <Form.Group as={Col} md="4" controlId="validationCustom04">
                                 <TextField
+                                        required
                                         id="date"
                                         label="Birthday"
                                         type="date"
@@ -311,6 +321,7 @@ class FormalRegistration extends Component {
                             
 
                                     <TextField
+                                            required
                                             label="NIC"
                                             className={useStyles.textField}
                                             type="text"
@@ -335,6 +346,7 @@ class FormalRegistration extends Component {
                            
                                 
                                     <TextField
+                                         required
                                         label="City"
                                         className={useStyles.textField}
                                         type="text"
@@ -355,6 +367,7 @@ class FormalRegistration extends Component {
                                 
                                 
                                     <TextField
+                                        required
                                         label="district"
                                         className={useStyles.textField}
                                         type="text"

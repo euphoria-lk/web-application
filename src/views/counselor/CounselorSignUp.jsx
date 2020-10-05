@@ -133,7 +133,7 @@ class CounselorSignUp extends Component {
                 password:this.state.password,
                 city:this.state.city
             }
-            axios.post('http://localhost:5000/api/v1/counsellor-service/counsellor/signup',JSON.stringify(body),{headers: {
+            axios.post('http://localhost:5001/api/v1/counsellor-service/counsellor/signup',JSON.stringify(body),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
                 console.log(result)

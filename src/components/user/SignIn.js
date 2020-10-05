@@ -80,21 +80,32 @@ class SignIn extends Component{
   }
   handleClick=(e)=>{
     e.preventDefault();
-    axios.post('',JSON.stringify(this.state),{headers: {
+    const body ={
+      email:this.state.email,
+      password:this.state.password
+    }
+    axios.post('http://localhost:5000/api/v1/client-service/login',JSON.stringify(body),{headers: {
         'Content-Type': 'application/json',
     }})
     .then((res)=>{
+      if(res.data.message && res.status === 200){
+        this.setState({
+          error:{
+            message:"email or password incorrect"
+          }
+        })
+      }else{
+
       this.setState({
           success:true,
           error:false
         })
-         console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user_profile",res.data.user_profile);
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+        localStorage.setItem("firstname",res.data.user_profile.firstname);
+        localStorage.setItem("lastname",res.data.user_profile.lastname);
         setTimeout(() => {
-               window.location.replace('/user/counselors')
+               window.location.replace('/user/home')
                 }, 2000);
+      }
        
     }).catch(err=>{
        this.setState({

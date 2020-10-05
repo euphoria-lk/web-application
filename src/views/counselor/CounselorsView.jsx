@@ -24,14 +24,14 @@ class CounselorAppointments extends Component {
         };
     }
     componentWillMount(){
-        if(!localService.getToken()){
-            window.location.replace("/user/login");
-        }
+        // if(!localStorage.getItem('token')){
+        //     window.location.replace("/user/login");
+        // }
     }
 
 
     componentDidMount(){
-        axios.get('http://localhost:5000/api/v1/counselling-service/counsellor/6',
+        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/6',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ class CounselorAppointments extends Component {
                  <TitleComponent title="Counselors | User" />
                 <Grid style={{marginTop:'20px',marginLeft:'50px'}} container spacing={3}>
                  {this.state.error  &&
-            <Alert onClose={() => {
+            <Alert style={{textalign:'center',marginLeft:'35%'}} onClose={() => {
                 this.setState({
                      error:false
                  })
@@ -73,11 +73,11 @@ class CounselorAppointments extends Component {
                 <strong>{this.state.error.message}</strong>
             </Alert>
             }
-                    {this.state.appointments !== null ?
+                    {this.state.counselors .length>0 ?
                             this.state.counselors.map((counselor,index) => (
                                     <CounselorCard style={{marginTop:'20px',width:'300px'}} key={index}  counselors={counselor}/>
-                            )) :  <div  style={{textalign:'center',width:'300px',height:'300px'}} className={classes.root}>
-                            <CircularProgress />
+                            )) :  <div  style={{textalign:'center',width:'100%',height:'300px'}} className={classes.root}>
+                            <CircularProgress style={{marginLeft:'40%',width:'300px',height:'300px',marginTop:'50px'}} />
                             </div>
                     }
                 </Grid>

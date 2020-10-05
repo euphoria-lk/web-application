@@ -6,6 +6,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import {Nav} from 'react-bootstrap';
 
 const useStyles = makeStyles((theme) => ({
         root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function NavBarLandingPage() {
-     
+    const firstname= localStorage.getItem('firstname');
      const Classes=useStyles();
     
         return (
@@ -33,7 +34,13 @@ export default function NavBarLandingPage() {
                     <Typography variant="h6" className={Classes.title}>
                         Euphoria
                     </Typography>
-                    <Avatar style={{marginLeft:'10px',marginRight:'10px'}} alt="Remy Sharp" src="https://firebasestorage.googleapis.com/v0/b/xplore-1.appspot.com/o/post-uploads%2FEUaLjpamJtr6VNsq4KJu%2Fpost-image?alt=media&token=4034bcad-cbc0-4f97-97e9-9e7fec7f220b"  />
+                        <Typography>
+                           <Nav.Link style={{color:'white',marginRight:'10px'}} href="/user/counselors">New Appointment</Nav.Link>
+                            </Typography>
+                    {/* <Avatar style={{marginLeft:'10px',marginRight:'10px'}} alt={user.firstname}   /> */}
+                    <Avatar  style={{backgroundColor:'grey',width:"50px",height:"50px",marginRight:'10px'}} aria-label="recipe" >
+                   {firstname.toString().substring(0, 1).toUpperCase()}
+                </Avatar>
                     <Button href="" color="inherit">Sign Out</Button>
                    
 
