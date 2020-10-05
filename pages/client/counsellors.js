@@ -32,9 +32,9 @@ export default function clientCounsellors({data}) {
                     ))}
                 </Grid>
             </Container>
-            {/*<Dialog open={true} style={{width:'1000px'}}>*/}
+            <Dialog open={true} style={{width:'1000px'}}>
                 <NewAppointmentView/>
-            {/*</Dialog>*/}
+            </Dialog>
         </ClientLayout>
     );
 }
