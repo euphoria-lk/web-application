@@ -9,7 +9,6 @@ export async function getServerSideProps(){
     const data = await res.json();
 
     return {props: {data}};
-
 }
 
 export default function clientCounsellors({data}) {
@@ -33,9 +32,9 @@ export default function clientCounsellors({data}) {
                     ))}
                 </Grid>
             </Container>
-            <Dialog open={true}>
-            <NewAppointmentView/>
-            </Dialog>
+            {/*<Dialog open={true} style={{width:'1000px'}}>*/}
+                <NewAppointmentView/>
+            {/*</Dialog>*/}
         </ClientLayout>
     );
 }

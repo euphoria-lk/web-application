@@ -1,26 +1,37 @@
 import React, {Component} from 'react'
-import {Avatar, Button, Grid} from '@material-ui/core';
+import {Avatar, Button, Dialog, DialogActions, DialogContent, Grid, Typography} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
+import {DateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import MomentUtils from '@date-io/moment';
 // import NavBarLandingPage from '../../src/components/common/NavBarLandingPage';
 // import logo from '/euphoria-v2-art.png';
 // import {TitleComponent} from '../../src/components/common/Title'
-import CssBaseline from '@material-ui/core/CssBaseline';
-import {Alert, AlertTitle} from '@material-ui/lab';
+
+const axios = require('axios').default;
 
 const logo = '/euphoria-v2-art.png';
+
+export async function getServerSideProps() {
+    const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/10');
+    const data = await res.json();
+
+    return {props: {data}};
+}
 
 class NewAppointmentView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            counselor: 'kasun',
+            firstname: 'Missaka',
+            lastname : 'Iddamalgoda',
 
             errors     : {},
             isLoading  : false,
-            counselor  : '',
-            firstname  : '',
-            lastname   : '',
+            // counselor  : '',
+            // firstname  : '',
+            // lastname   : '',
             title      : '',
             description: '',
             startTime  : '',
@@ -33,11 +44,15 @@ class NewAppointmentView extends Component {
             image      : ''
         }
 
-
+        this.getData();
     }
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
+    }
+
+    startTimeChange = (time) => {
+
     }
 
 
@@ -62,7 +77,7 @@ class NewAppointmentView extends Component {
                     success: true
                 })
                 setTimeout(() => {
-                    window.location.replace("/user/home");
+                    // window.location.replace("/user/home");
                 }, 2000);
 
             }
@@ -76,14 +91,13 @@ class NewAppointmentView extends Component {
         });
     }
 
-    componentWillMount() {
+    getData() {
         // this.state.counselor=this.props.match.params.name;
-        this.state.counselor = 'kasun';
+        // this.state.counselor = 'kasun';
+        console.log("Damn");
         this.setState({
             // firstname:localStorage.getItem('firstname'),
             // lastname:localStorage.getItem('lastname')
-            firstname: 'Missaka',
-            lastname : 'Iddamalgoda'
         })
         axios.get('http://localhost:5001/api/v1/counsellor-service/counsellor/' + this.state.counselor, {
             headers: {
@@ -143,210 +157,244 @@ class NewAppointmentView extends Component {
 
         return (
 
-            <Grid>
-                {/*<NavBarLandingPage></NavBarLandingPage>*/}
-                {this.state.error &&
-                <Alert onClose={() => {
-                    this.setState({
-                        error: false
-                    })
-                }}
-                       severity="error"
-                >
-                    <AlertTitle>Error</AlertTitle>
-                    <strong>{this.state.error.message}</strong>
-                </Alert>
-                }
-                {this.state.success &&
-                <Alert severity="success"
-                       onClose={() => {
-                           this.setState({
-                               success: false
-                           })
-                       }}>
-                    <AlertTitle>Success</AlertTitle>
-                    <strong>Appointment saved successfully!</strong>
-                </Alert>
-                }
-                {/*<Row>*/}
-                    <Grid item xs={6}>
-                        <Avatar style={{
-                            width       : '350px',
-                            height      : '300px',
-                            marginLeft  : '30%',
-                            marginTop   : '30%',
-                            marginBottom: '30px'
-                        }} alt={this.state.counselor} src={this.state.image}/>
-                        <h4 style={{marginLeft: "30%", fontFamily: "Inconsolata"}}>Name : {this.state.counselor} </h4>
-                        <h4 style={{marginLeft: "30%", fontFamily: "Inconsolata"}}>Speciality
-                            : {this.state.speciality} </h4>
-                        <h4 style={{marginLeft: "30%", fontFamily: "Inconsolata"}}>Email : {this.state.email} </h4>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Form style={{textalign: 'center', marginTop: '60px', marginLeft: '20%'}}
-                              onSubmit={this.onSubmit}>
-                            {/*<TitleComponent title="Appointment | User"/>*/}
-                            <CssBaseline/>
-                            <Avatar style={{marginLeft: '190px'}} alt="logo" src={logo}
-                                    className={useStyles.bigAvatar}/> <h2
-                            style={{marginLeft: '30px', marginBottom: '60px', marginTop: '10px'}}>New Appointment |
-                            User</h2>
+            <Dialog open={true}>
+                <form>
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DialogContent>
+                            <Grid container>
+                                {/*<NavBarLandingPage></NavBarLandingPage>*/}
+                                {/*{this.state.error &&
+                            <Alert onClose={() => {
+                                this.setState({
+                                    error: false
+                                })
+                            }} severity="error">
+                                <AlertTitle>Error</AlertTitle>
+                                <strong>{this.state.error.message}</strong>
+                            </Alert>
+                            }
+                            {this.state.success &&
+                            <Alert severity="success"
+                                   onClose={() => {
+                                       this.setState({
+                                           success: false
+                                       })
+                                   }}>
+                                <AlertTitle>Success</AlertTitle>
+                                <strong>Appointment saved successfully!</strong>
+                            </Alert>
+                            }*/}
+                                {/*<Grid item xs={6}>*/}
+                                {/*    <Avatar style={{*/}
+                                {/*        width       : '350px',*/}
+                                {/*        height      : '300px',*/}
+                                {/*        marginLeft  : '30%',*/}
+                                {/*        marginTop   : '30%',*/}
+                                {/*        marginBottom: '30px'*/}
+                                {/*    }} alt={this.state.counselor} src={this.state.image}/>*/}
+                                {/*    <Typography variant={'h5'}>*/}
+                                {/*        Name : {this.state.counselor}*/}
+                                {/*    </Typography>*/}
+                                {/*    /!*<h4 style={{marginLeft: "30%", fontFamily: "Inconsolata"}}>Name : {this.state.counselor} </h4>*!/*/}
+                                {/*    <Typography variant={'h5'}>*/}
+                                {/*        Speciality : {this.state.speciality}*/}
+                                {/*    </Typography>*/}
+                                {/*    /!*<h4 style={{marginLeft: "30%", fontFamily: "Inconsolata"}}>Speciality : {this.state.speciality} </h4>*!/*/}
+                                {/*    <Typography variant={'h5'}>*/}
+                                {/*        Email : {this.state.email}*/}
+                                {/*    </Typography>*/}
+                                {/*</Grid>*/}
+                                <Grid item xs={12}>
 
+                                    {/*<TitleComponent title="Appointment | User"/>*/}
+                                    {/*<CssBaseline/>*/}
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={5}>
+                                            <Avatar
+                                                style={{
+                                                    width      : '100%',
+                                                    maxWidth   : '150px',
+                                                    height     : "auto",
+                                                    maxHeight  : '150px',
+                                                    marginLeft : "auto",
+                                                    marginRight: '0px'
+                                                }}
+                                                alt="logo" src={logo}/>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Typography variant={"h5"} component={"h5"}>New Appointment |
+                                                User</Typography>
+                                        </Grid>
+                                    </Grid>
 
-                            <Form.Group controlId="formfirstnameq">
-                                <TextField
-                                    required
-                                    disabled
-                                    id="firstnameq"
-                                    label=" First Name"
-                                    className={useStyles.textField}
-                                    type="text"
-                                    name="firstname"
-                                    autoComplete="firstname"
-                                    margin="none"
-                                    variant="outlined"
-                                    style={{width: '50vh'}}
-                                    onChange={this.onChange}
-                                    value={this.state.firstname}
+                                    <Grid container spacing={2}>
 
-                                />
-                                <br/>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                required
+                                                disabled
+                                                id="counselorq"
+                                                label=" Counselor Name"
+                                                className={useStyles.textField}
+                                                type="text"
+                                                name="counselor"
+                                                autoComplete="counselor"
+                                                margin="none"
+                                                variant="outlined"
 
-                            </Form.Group>
-                            <Form.Group controlId="formlastnameq">
-                                <TextField
-                                    required
-                                    disabled
-                                    id="lastnameq"
-                                    label=" Last Name"
-                                    className={useStyles.textField}
-                                    type="text"
-                                    name="lastname"
-                                    autoComplete="lastname"
-                                    margin="none"
-                                    variant="outlined"
-                                    style={{width: '50vh'}}
-                                    onChange={this.onChange}
-                                    value={this.state.lastname}
+                                                onChange={this.onChange}
+                                                value={this.state.counselor}
+                                                fullWidth
+                                            />
+                                        </Grid>
 
-                                />
-                                <br/>
+                                        <Grid item xs={12}>
+                                            <TextField
+                                                required
+                                                disabled
+                                                id="firstnameq"
+                                                label=" First Name"
+                                                className={useStyles.textField}
+                                                type="text"
+                                                name="firstname"
+                                                autoComplete="firstname"
+                                                margin="none"
+                                                variant="outlined"
+                                                // style={{width: '50vh'}}
+                                                onChange={this.onChange}
+                                                value={this.state.firstname}
+                                                fullWidth
+                                            />
+                                            {/*<br/>*/}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            {/*</FormGroup>*/}
+                                            {/*<FormGroup controlId="formlastnameq">*/}
+                                            <TextField
+                                                required
+                                                disabled
+                                                id="lastnameq"
+                                                label=" Last Name"
+                                                className={useStyles.textField}
+                                                type="text"
+                                                name="lastname"
+                                                autoComplete="lastname"
+                                                margin="none"
+                                                variant="outlined"
+                                                // style={{width: '50vh'}}
+                                                onChange={this.onChange}
+                                                value={this.state.lastname}
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            {/*</FormGroup>*/}
+                                            {/*<FormGroup controlId="formtitleq">*/}
+                                            <TextField
+                                                required
 
-                            </Form.Group>
-                            <Form.Group controlId="formtitleq">
-                                <TextField
-                                    required
+                                                id="titleq"
+                                                label="Enter Title"
+                                                className={useStyles.textField}
+                                                type="text"
+                                                name="title"
+                                                autoComplete="title"
+                                                margin="none"
+                                                variant="outlined"
+                                                // style={{width: '50vh'}}
+                                                onChange={this.onChange}
+                                                value={this.state.title}
+                                                fullWidth
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            {/*</FormGroup>*/}
 
-                                    id="titleq"
-                                    label="Enter Title"
-                                    className={useStyles.textField}
-                                    type="text"
-                                    name="title"
-                                    autoComplete="title"
-                                    margin="none"
-                                    variant="outlined"
-                                    style={{width: '50vh'}}
-                                    onChange={this.onChange}
-                                    value={this.state.title}
+                                            {/*<FormGroup controlId="formdescriptionq">*/}
+                                            <TextField
+                                                required
 
-                                />
-                                <br/>
+                                                id="descriptionq"
+                                                label="Enter Description"
+                                                className={useStyles.textField}
+                                                type="text"
+                                                name="description"
+                                                autoComplete="description"
+                                                margin="none"
+                                                multiline={true}
+                                                rows={5}
+                                                variant="outlined"
+                                                // style={{width: '50vh'}}
+                                                onChange={this.onChange}
+                                                value={this.state.description}
+                                                fullWidth
+                                            />
+                                        </Grid>
 
-                            </Form.Group>
+                                        <Grid item xs={12}>
+                                            {/*</FormGroup>*/}
+                                            {/*<FormGroup controlId="formstartTimerq">*/}
+                                            {/*<TextField
+                                            id="startTimeq"
+                                            label="Appointment Start Time"
+                                            type="datetime-local"
+                                            className={useStyles.textField}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            name='startTime'
 
-                            <Form.Group controlId="formdescriptionq">
-                                <TextField
-                                    required
+                                            onChange={this.onChange}
+                                            variant="outlined"
+                                            value={this.state.startTime}
+                                            fullWidth
+                                        />*/}
+                                            <DateTimePicker id={"startTimeq"} label={"Appointment Start Time"}
+                                                            name={'startTime'} value={this.state.startTime}
+                                                            onChange={this.startTimeChange} inputVariant={"outlined"}
+                                                            disablePast
+                                                            fullWidth/>
+                                            {/*    <br/>*/}
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            {/*</FormGroup>*/}
+                                            {/*<FormGroup controlId="formendTimeq">*/}
+                                            <TextField
+                                                id="endTimeq"
+                                                label="Appointment End Time"
 
-                                    id="descriptionq"
-                                    label="Enter Description"
-                                    className={useStyles.textField}
-                                    type="text"
-                                    name="description"
-                                    autoComplete="description"
-                                    margin="none"
-                                    multiline={true}
-                                    rows={5}
-                                    variant="outlined"
-                                    style={{width: '50vh'}}
-                                    onChange={this.onChange}
-                                    value={this.state.description}
-
-                                />
-                                <br/>
-
-                            </Form.Group>
-                            <Form.Group>
-                                <TextField
-                                    required
-                                    disabled
-                                    id="counselorq"
-                                    label=" Counselor Name"
-                                    className={useStyles.textField}
-                                    type="text"
-                                    name="counselor"
-                                    autoComplete="counselor"
-                                    margin="none"
-                                    variant="outlined"
-                                    style={{width: '50vh'}}
-                                    onChange={this.onChange}
-                                    value={this.state.counselor}
-
-                                />
-                                <br/>
-
-                            </Form.Group>
-                            <Form.Group controlId="formstartTimerq">
-                                <TextField
-                                    id="startTimeq"
-                                    label="Appointment Start Time"
-                                    type="datetime-local"
-                                    className={useStyles.textField}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    name='startTime'
-                                    style={{width: '50vh'}}
-                                    onChange={this.onChange}
-                                    variant="outlined"
-                                    value={this.state.startTime}
-                                />
-                                <br/>
-
-                            </Form.Group>
-                            <Form.Group controlId="formendTimeq">
-                                <TextField
-                                    id="endTimeq"
-                                    label="Appointment End Time"
-                                    type="datetime-local"
-                                    className={useStyles.textField}
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                    name='endTime'
-                                    style={{width: '50vh', color: 'black'}}
-                                    onChange={this.onChange}
-                                    variant="outlined"
-                                    value={this.state.endTime}
-                                />
-                                <br/>
-
-                            </Form.Group>
-                            <Form.Group controlId="formbutton">
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    style={{width: '30vh', marginTop: '20px', marginLeft: '90px'}}
-                                    type="submit"
-                                >
-                                    Request Appointment
-                                </Button>
-                            </Form.Group>
-
-                        </Form>
-                    </Grid>
-                {/*</Row>*/}
-            </Grid>
+                                                className={useStyles.textField}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                name='endTime'
+                                                // style={{width: '50vh', color: 'black'}}
+                                                onChange={this.onChange}
+                                                variant="outlined"
+                                                value={this.state.endTime}
+                                                fullWidth
+                                            />
+                                            {/*    <br/>*/}
+                                        </Grid>
+                                        {/*</FormGroup>*/}
+                                    </Grid>
+                                </Grid>
+                                {/*</Row>*/}
+                            </Grid>
+                        </DialogContent>
+                    </MuiPickersUtilsProvider>
+                    <DialogActions>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            style={{width: '30vh', marginTop: '20px', marginLeft: '90px'}}
+                            type="submit"
+                        >
+                            Request Appointment
+                        </Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
         )
     }
 }
