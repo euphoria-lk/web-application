@@ -43,7 +43,7 @@ class CounselorCard extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            counselors: {
+            counsellor: {
                 name         : 'Missaka Prasajith Iddamalgoda',
                 speciality   : 'Counselling, Therapist',
                 qualification: 'MBBS',
@@ -58,66 +58,48 @@ class CounselorCard extends Component {
     }
 
     handleClick = () => {
-        this.setState({'status': 'Approved'})
+        // this.setState({'status': 'Approved'})
     }
 
     render() {
 
         // const {classes} = this.props;
 
-        // const tolink = '/user/appointments/' + this.state.counselors.name;
+        // const tolink = '/user/appointments/' + this.props.counsellor.name;
         return (
 
-            <Card style={{width: '500px', margin: '10px'}}>
-                {/*<CardActionArea>*/}
-                {/*<CardHeader*/}
-                {/*    avatar={*/}
-                {/*        <Avatar style={{backgroundColor: 'green', width: "50px", height: "50px"}}*/}
-                {/*                aria-label="recipe">*/}
-                {/*            MI*/}
-                {/*            /!*{this.state.counselors.name.toString().substring(0, 1).toUpperCase()}*!/*/}
-                {/*        </Avatar>*/}
-                {/*    }*/}
-                {/*    style={{height: '30%'}}*/}
-                {/*    title={this.state.counselors.name}*/}
-                {/*    subheader={this.state.counselors.speciality}*/}
-                {/*/>*/}
-
-
+            <Card style={{margin: '10px'}}>
                 <CardContent>
-
-                    <Grid container spacing='1'>
+                    <Grid container spacing={1}>
                         <Grid item xs={4}>
                             {/*<img src={'/euphoria-v2-art.png'} style={{width:'100%'}}/>*/}
                             <Avatar style={{width: '100%', maxWidth: '150px', height: "auto", maxHeight: '150px'}}
-                                    alt="Remy Sharp" src={'/person.jpg'}/>
+                                    alt="Remy Sharp" src={this.props.counsellor.image}/>
                         </Grid>
-                        <Grid item xs={8} alignContent={"center"} alignItems={"center"}>
+                        <Grid item xs={8}>
                             <Typography variant="h4" component="h3">
-                                {this.state.counselors.name}
+                                {this.props.counsellor.name}
                             </Typography>
                             {/*<Divider/>*/}
                             <Typography variant='h5' component='h4' color="textSecondary">
-                                {this.state.counselors.speciality}
+                                {this.props.counsellor.speciality}
                             </Typography>
                             <Typography variant='h6' component='h5' color="textSecondary">
-                                {this.state.counselors.qualification}
+                                {this.props.counsellor.qualification}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Divider/>
                             <Typography variant="body2" color="textSecondary">
-                                {this.state.counselors.description}
+                                {this.props.counsellor.description}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant='contained' color='primary' style={{marginLeft: 'auto', float: 'right'}}>Book
+                            <Button variant='contained' color='primary' style={{marginLeft: 'auto', float: 'right'}} onClick={this.handleClick}>Book
                                 Now</Button>
                         </Grid>
                     </Grid>
-
                 </CardContent>
-                {/*</CardActionArea>*/}
             </Card>
         );
     };
