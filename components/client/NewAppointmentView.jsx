@@ -1,47 +1,58 @@
 import React, {Component} from 'react'
-import {Avatar, Button, Dialog, DialogActions, DialogContent, Grid, Typography} from '@material-ui/core';
+import {
+    Avatar,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography
+} from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
-import {DateTimePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
-import MomentUtils from '@date-io/moment';
-// import NavBarLandingPage from '../../src/components/common/NavBarLandingPage';
-// import logo from '/euphoria-v2-art.png';
-// import {TitleComponent} from '../../src/components/common/Title'
+import {DatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
+import LuxonUtils from '@date-io/luxon';
 
 const axios = require('axios').default;
 
 const logo = '/euphoria-v2-art.png';
 
-export async function getServerSideProps() {
-    const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/10');
-    const data = await res.json();
-
-    return {props: {data}};
-}
+// export async function getServerSideProps() {
+//     const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/10');
+//     const data = await res.json();
+//
+//     return {props: {data}};
+// }
 
 class NewAppointmentView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            counselor: 'kasun',
-            firstname: 'Missaka',
-            lastname : 'Iddamalgoda',
-
-            errors     : {},
-            isLoading  : false,
+            counselor     : props.counsellor,
+            firstname     : '',
+            lastname      : '',
+            errors        : {},
+            isLoading     : false,
             // counselor  : '',
             // firstname  : '',
             // lastname   : '',
-            title      : '',
-            description: '',
-            startTime  : '',
-            endTime    : '',
-            speciality : '',
-            email      : '',
-            error      : '',
-            open       : true,
-            success    : false,
-            image      : ''
+            title         : '',
+            description   : '',
+            startTime     : '',
+            endTime       : '',
+            speciality    : '',
+            email         : '',
+            error         : '',
+            open          : true,
+            success       : false,
+            image         : '',
+            timeSlot      : '',
+            availableTimes: null,
+            isOpen        : true,
         }
 
         this.getData();
@@ -51,22 +62,64 @@ class NewAppointmentView extends Component {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    startTimeChange = (time) => {
+    bookingDateChange = (date) => {
+        this.setState({
+            bookingDate: date,
+        });
 
-    }
+        console.log(date.toISODate());
 
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        console.log("datetime" + this.state.startTime);
-        const body = {}
-
-        send('http://localhost:5002/api/v1/counselling-service/counsellor/appointments', JSON.stringify(this.state), {
+        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/getAvailableTimes/' + this.state.counselor + '&' + date.toISODate(), {
             headers: {
                 'Content-Type': 'application/json',
             }
         }).then(result => {
-            if (result.message) {
+            console.log(result.data);
+            if (result.data.message) {
+                this.setState({
+                    error         : result.data,
+                    availableTimes: null
+                })
+            } else {
+                this.setState({
+                    availableTimes: result.data,
+                })
+            }
+
+        }).catch(err => {
+            this.setState({
+                error: err
+            })
+
+        })
+
+    }
+
+    startTimeChange = (time) => {
+        this.setState({
+            bookingDate: time,
+        });
+    }
+
+    handleClose = () => {
+        this.setState({
+            isOpen:false,
+        });
+        this.props.onChange(null)
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        // console.log("datetime" + this.state.startTime);
+        // const body = {}
+
+        axios.post('http://localhost:5002/api/v1/counselling-service/counsellor/appointments', JSON.stringify(this.state), {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(result => {
+            console.log(result);
+            if (!result.data.success) {
                 this.setState({
                     success: false,
                     error  : result
@@ -77,7 +130,8 @@ class NewAppointmentView extends Component {
                     success: true
                 })
                 setTimeout(() => {
-                    // window.location.replace("/user/home");
+                    alert("Appointment made successfully");
+                    this.handleClose();
                 }, 2000);
 
             }
@@ -94,11 +148,10 @@ class NewAppointmentView extends Component {
     getData() {
         // this.state.counselor=this.props.match.params.name;
         // this.state.counselor = 'kasun';
-        console.log("Damn");
-        this.setState({
-            // firstname:localStorage.getItem('firstname'),
-            // lastname:localStorage.getItem('lastname')
-        })
+        // console.log("Damn");
+        // this.setState({
+        //     isOpen:true
+        // })
         axios.get('http://localhost:5001/api/v1/counsellor-service/counsellor/' + this.state.counselor, {
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +181,12 @@ class NewAppointmentView extends Component {
     }
 
     componentDidMount() {
-
+        this.setState({
+            // firstname: localStorage.getItem('firstname'),
+            // lastname : localStorage.getItem('lastname')
+            firstname: 'Dimuthu',
+            lastname: 'Kasun'
+        })
     }
 
     render() {
@@ -155,11 +213,17 @@ class NewAppointmentView extends Component {
             },
         }));
 
-        return (
+        let selects = null;
+        if (this.state.availableTimes) {
+            selects = this.state.availableTimes.map((val) => (
+                <MenuItem value={val}>{val}</MenuItem>
+            ))
+        }
 
-            <Dialog open={true}>
+        return (
+            <Dialog open={this.state.isOpen} onClose={this.handleClose}>
                 <form>
-                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <MuiPickersUtilsProvider utils={LuxonUtils}>
                         <DialogContent>
                             <Grid container>
                                 {/*<NavBarLandingPage></NavBarLandingPage>*/}
@@ -331,7 +395,7 @@ class NewAppointmentView extends Component {
                                             />
                                         </Grid>
 
-                                        <Grid item xs={12}>
+                                        <Grid item xs={6}>
                                             {/*</FormGroup>*/}
                                             {/*<FormGroup controlId="formstartTimerq">*/}
                                             {/*<TextField
@@ -349,32 +413,32 @@ class NewAppointmentView extends Component {
                                             value={this.state.startTime}
                                             fullWidth
                                         />*/}
-                                            <DateTimePicker id={"startTimeq"} label={"Appointment Start Time"}
-                                                            name={'startTime'} value={this.state.startTime}
-                                                            onChange={this.startTimeChange} inputVariant={"outlined"}
-                                                            disablePast
-                                                            fullWidth/>
+                                            <DatePicker id={"startTimeq"} label={"Booking Date"}
+                                                        name={'bookingDate'} value={this.state.bookingDate}
+                                                        onChange={this.bookingDateChange} inputVariant={"outlined"}
+                                                        disablePast
+                                                        fullWidth/>
                                             {/*    <br/>*/}
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            {/*</FormGroup>*/}
-                                            {/*<FormGroup controlId="formendTimeq">*/}
-                                            <TextField
-                                                id="endTimeq"
-                                                label="Appointment End Time"
+                                        <Grid item xs={6}>
+                                            <FormControl variant="outlined" fullWidth>
+                                                <InputLabel id="demo-simple-select-outlined-label">Appointment
+                                                    Time</InputLabel>
+                                                <Select
+                                                    labelId="demo-simple-select-outlined-label"
+                                                    id="demo-simple-select-outlined"
+                                                    name={'timeSlot'}
+                                                    value={this.state.timeSlot}
+                                                    onChange={this.onChange}
+                                                    label="Appointment Time"
+                                                >
+                                                    <MenuItem value="">
+                                                        <em>None</em>
+                                                    </MenuItem>
+                                                    {selects}
 
-                                                className={useStyles.textField}
-                                                InputLabelProps={{
-                                                    shrink: true,
-                                                }}
-                                                name='endTime'
-                                                // style={{width: '50vh', color: 'black'}}
-                                                onChange={this.onChange}
-                                                variant="outlined"
-                                                value={this.state.endTime}
-                                                fullWidth
-                                            />
-                                            {/*    <br/>*/}
+                                                </Select>
+                                            </FormControl>
                                         </Grid>
                                         {/*</FormGroup>*/}
                                     </Grid>
@@ -387,8 +451,9 @@ class NewAppointmentView extends Component {
                         <Button
                             variant="contained"
                             color="primary"
-                            style={{width: '30vh', marginTop: '20px', marginLeft: '90px'}}
+                            // style={{width: '30vh', marginTop: '20px', marginLeft: '90px'}}
                             type="submit"
+                            onClick={this.onSubmit}
                         >
                             Request Appointment
                         </Button>

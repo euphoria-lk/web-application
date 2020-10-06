@@ -58,7 +58,8 @@ class CounselorCard extends Component {
     }
 
     handleClick = () => {
-        // this.setState({'status': 'Approved'})
+        this.props.onCounsellorSelect(this.props.counsellor.name);
+        console.log("Counsellor Booking Triggered");
     }
 
     render() {
