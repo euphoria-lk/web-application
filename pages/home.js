@@ -11,7 +11,6 @@ export default function Home() {
             </Head>
             <Container>
                 <h1>Home Page</h1>
-                <CounselorCard/>
             </Container>
         </ClientLayout>
     );

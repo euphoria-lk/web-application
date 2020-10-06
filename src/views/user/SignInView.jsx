@@ -15,8 +15,8 @@ export default class SignInView extends Component {
          const history=this.props;
         return (
         <React.Fragment>
-        <Grid   >
-            <Row >
+        <Grid>
+            <Row>
                 <Col xs={12}>
                     {/* <NavBarLandingPage></NavBarLandingPage> */}
                 </Col>
@@ -24,7 +24,6 @@ export default class SignInView extends Component {
             <Row  id="rootGrid">
                 <Col xs={12}>
                         <SignIn history={history}></SignIn>
-
                 </Col>
             </Row>
             </Grid>

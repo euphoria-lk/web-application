@@ -16,6 +16,7 @@ import {fade, makeStyles} from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu'
 import styles from './topbar-top.module.css';
+import NLink from 'next/link'
 
 function ToolbarTop() {
 
@@ -107,10 +108,10 @@ function ToolbarTop() {
             <Typography>
                 <List>
                     <ListItem className={inline}>
-                        <Link className={styles.MuiLink}>Counsellors</Link>
+                        <NLink href={'/client/counsellors'}><Link href={'/client/counsellors'} className={styles.MuiLink}>Counsellors</Link></NLink>
                     </ListItem>
                     <ListItem className={inline}>
-                        <Link className={styles.MuiLink}>Appointments</Link>
+                        <NLink href={'/home'}><Link className={styles.MuiLink}>Appointments</Link></NLink>
                     </ListItem>
                 </List>
             </Typography>
