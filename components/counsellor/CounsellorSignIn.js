@@ -218,7 +218,7 @@ class CounsellorSignIn extends Component{
   }
 
 }
-SignIn.propTypes={
+CounsellorSignIn.propTypes={
   classes:PropTypes.object.isRequired,
 };
 export default withStyles(styles)(CounsellorSignIn);

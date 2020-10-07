@@ -17,7 +17,7 @@ class CounselorHomeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: null,
+            // error: null,
             isLoaded: false,
             appointments: [],
             error:'',

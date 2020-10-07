@@ -16,9 +16,9 @@ import CounsellorSignIn from "../../components/counsellor/CounsellorSignIn";
 // }
 
 
-export default function counsellorsLogin({data}) {
+export default function counsellorsLogin() {
 
-    console.log("Data", data.length);
+    // console.log("Data", data.length);
 
     const [state, setState] = React.useState({
         selectedCounsellor: null
