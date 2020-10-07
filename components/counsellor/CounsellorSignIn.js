@@ -13,13 +13,12 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import logo from '../../assets/eu-logo.png';
+
+// import logo from '../../assets/eu-logo.png';
 import axios from 'axios';
-import {TitleComponent} from '../../components/common/Title'
-import './CounselorSignIn'
 import { Alert, AlertTitle } from '@material-ui/lab';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+// import UserProfile from '../../model/UserProfile';
+// import {TitleComponent} from '../common/Title'
 
 function Copyright() {
   return (
@@ -33,6 +32,8 @@ function Copyright() {
     </Typography>
   );
 }
+
+
 const styles=theme=>({
   '@global': {
     body: {
@@ -50,7 +51,7 @@ const styles=theme=>({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -65,7 +66,7 @@ const styles=theme=>({
 
 
 
-class CounselorSignIn extends Component{
+class CounsellorSignIn extends Component{
   constructor(props){
     super(props);
     this.state={
@@ -79,6 +80,7 @@ class CounselorSignIn extends Component{
   handleChange=(e)=>{
     this.setState({[e.target.name]:e.target.value});
   }
+
   handleClick=(e)=>{
     e.preventDefault();
     const body={
@@ -87,27 +89,27 @@ class CounselorSignIn extends Component{
     }
     axios.post('http://localhost:5001/api/v1/counsellor-service/counsellor/login',JSON.stringify(body),{headers: {
         'Content-Type': 'application/json',
-    }})
-    .then((res)=>{
-      console.log(res);
-      if(res.data.message && res.status === 200){
-        this.setState({
-          error:res.data
-        })
-      }else{
-         this.setState({
-          success:true,
-          error:false
-        })
-        localStorage.setItem("counselor_email",res.data.counselor_profile.email);
-        localStorage.setItem("counselor_image",res.data.counselor_profile.image);
-        setTimeout(() => {
-               window.location.replace('/counsellor/home')
-                }, 2000);
+      }})
+        .then((res)=>{
+          console.log(res);
+          if(res.data.message && res.status === 200){
+            this.setState({
+              error:res.data
+            })
+          }else{
+            this.setState({
+              success:true,
+              error:false
+            })
+            localStorage.setItem("counselor_email",res.data.counselor_profile.email);
+            localStorage.setItem("counselor_image",res.data.counselor_profile.image);
+            setTimeout(() => {
+              window.location.replace('/counselor/home');
+            }, 2000);
 
-      }
-       
-    }).catch(err=>{
+          }
+
+        }).catch(err=>{
       this.setState({
         error:{
           message:err
@@ -115,15 +117,16 @@ class CounselorSignIn extends Component{
       })
 
     })
-    
-
   }
+
   render(){
       const {classes}=this.props;
       return(
         
-        <Grid id="rootContainer" >
-         {this.state.error  &&
+        <Container style={{backgroundcolor:'white'}} component="main" maxWidth="xs">
+              {/*<TitleComponent title="Sign In | User" />*/}
+              <CssBaseline />
+               {this.state.error  &&
           <Alert onClose={() => {
                 this.setState({
                      error:false
@@ -146,12 +149,9 @@ class CounselorSignIn extends Component{
              <strong>LoggedIn  successfully!</strong>
             </Alert>
             }
-        <Container component="main" maxWidth="xs">
-              <TitleComponent title="Sign In | Counselor" />
-              <CssBaseline />
               <div className={classes.paper}>
                 
-                <Avatar alt="logo" src={logo} className={classes.bigAvatar} /> <h2>Sign In | Counselor</h2>
+                <Avatar alt="logo" src={'/euphoria-v2-art.png'} style={{width:'150px'}} className={classes.bigAvatar} /> <h2>Sign In | Counsellor</h2>
                
                 <form className={classes.form} noValidate onSubmit={this.handleClick} >
                   <TextField
@@ -190,7 +190,7 @@ class CounselorSignIn extends Component{
                     variant="contained"
                     color="primary"
                     className={classes.submit}
-                    
+                    onClick={this.handleClick}
                   >
                     Sign In
                   </Button>
@@ -201,7 +201,7 @@ class CounselorSignIn extends Component{
                       </Link>
                     </Grid>
                     <Grid item>
-                      <Link href="/counselor/signup" variant="body2">
+                      <Link href="/counsellor/signup" variant="body2">
                         {"Don't have an account? Sign Up"}
                       </Link>
                     </Grid>
@@ -212,14 +212,13 @@ class CounselorSignIn extends Component{
                 <Copyright />
               </Box>
             </Container>
-            </Grid>
       )
 
 
   }
 
 }
-CounselorSignIn.propTypes={
+SignIn.propTypes={
   classes:PropTypes.object.isRequired,
 };
-export default withStyles(styles)(CounselorSignIn);
+export default withStyles(styles)(CounsellorSignIn);

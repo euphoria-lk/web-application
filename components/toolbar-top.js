@@ -111,7 +111,7 @@ function ToolbarTop() {
                         <NLink href={'/client/counsellors'}><Link href={'/client/counsellors'} className={styles.MuiLink}>Counsellors</Link></NLink>
                     </ListItem>
                     <ListItem className={inline}>
-                        <NLink href={'/home'}><Link className={styles.MuiLink}>Appointments</Link></NLink>
+                        <NLink href={'/client/appointments'}><Link className={styles.MuiLink}>Appointments</Link></NLink>
                     </ListItem>
                 </List>
             </Typography>

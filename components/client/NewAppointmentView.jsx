@@ -182,10 +182,10 @@ class NewAppointmentView extends Component {
 
     componentDidMount() {
         this.setState({
-            // firstname: localStorage.getItem('firstname'),
-            // lastname : localStorage.getItem('lastname')
-            firstname: 'Dimuthu',
-            lastname: 'Kasun'
+            firstname: localStorage.getItem('firstname'),
+            lastname : localStorage.getItem('lastname')
+            // firstname: 'Dimuthu',
+            // lastname: 'Kasun'
         })
     }
 

@@ -6,6 +6,7 @@ import CounselorCard from "../../components/client/CounselorCard";
 import NewAppointmentView from "../../components/client/NewAppointmentView";
 import React from "react";
 import SignIn from "../../components/client/SignIn";
+import CounsellorSignIn from "../../components/counsellor/CounsellorSignIn";
 
 // export async function getServerSideProps() {
 //     const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/10');
@@ -15,9 +16,9 @@ import SignIn from "../../components/client/SignIn";
 // }
 
 
-export default function clientLogin() {
+export default function counsellorsLogin({data}) {
 
-    // console.log("Data", data.length);
+    console.log("Data", data.length);
 
     const [state, setState] = React.useState({
         selectedCounsellor: null
@@ -42,9 +43,9 @@ export default function clientLogin() {
     return (
         <LoginLayout>
             <Head>
-                <title>Login | User</title>
+                <title>Login | Counsellor</title>
             </Head>
-            <SignIn/>
+            <CounsellorSignIn/>
             {/*<Container>*/}
             {/*    */}
             {/*</Container>*/}

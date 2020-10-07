@@ -1,32 +1,51 @@
 import React, {Component} from 'react'
-import {Card, CardContent, Divider, Grid, Avatar, Button} from '@material-ui/core'
+import {Avatar, Button, Card, CardContent, Divider, Grid} from '@material-ui/core'
 import Typography from '@material-ui/core/Typography';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import {makeStyles, withStyles} from '@material-ui/core/styles';
+const axios = require('axios').default;
 
-class CounselorCard extends Component {
+class AppointmentCard extends Component {
 
 
     constructor(props, context) {
         super(props, context);
         this.state = {
             counsellor: {
-                name         : 'Missaka Prasajith Iddamalgoda',
-                speciality   : 'Counselling, Therapist',
-                qualification: 'MBBS',
-                image        : '/euphoria-v2-art.png',
-                description  : 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab amet' +
-                    'architecto assumenda distinctio dolorem ducimus eaque odio sunt, ullam! Eligendi impedit' +
-                    'itaque nemo provident quidem quo repudiandae sapiente tempora vel.',
-                email        : 'm.iddamalgoda@gmail.com',
-                city         : 'Colombo'
+
             }
         }
     }
 
     handleClick = () => {
-        this.props.onCounsellorSelect(this.props.counsellor.name);
-        console.log("Counsellor Booking Triggered");
+        this.props.onChatActivate(this.state.counsellor);
+        console.log("Counsellor Chat Triggered");
+    }
+
+    componentDidMount() {
+        axios.get('http://localhost:5001/api/v1/counsellor-service/counsellor/counselor/'+ this.props.appointment.counselor,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((response) => {
+            if(response.data.message && response.status === 200){
+                this.setState({
+                    show:false
+                })
+            }else{
+                this.setState({
+                    counsellor:response.data
+                })
+
+                console.log(response.data);
+
+            }
+
+        }).catch((err) => {
+            this.setState({
+                error:err
+            })
+        })
+
     }
 
     render() {
@@ -42,15 +61,15 @@ class CounselorCard extends Component {
                         <Grid item xs={4}>
                             {/*<img src={'/euphoria-v2-art.png'} style={{width:'100%'}}/>*/}
                             <Avatar style={{width: '100%', maxWidth: '150px', height: "auto", maxHeight: '150px'}}
-                                    alt="Remy Sharp" src={this.props.counsellor.image}/>
+                                    alt="Remy Sharp" src={this.state.counsellor.image}/>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography variant="h4" component="h3">
-                                {this.props.counsellor.name}
+                                {this.state.counsellor.name}
                             </Typography>
                             {/*<Divider/>*/}
                             <Typography variant='h5' component='h4' color="textSecondary">
-                                {this.props.counsellor.speciality}
+                                {this.state.counsellor.speciality}
                             </Typography>
                             {/*<Typography variant='h6' component='h5' color="textSecondary">*/}
                             {/*    {this.props.counsellor.qualification}*/}
@@ -58,9 +77,22 @@ class CounselorCard extends Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Divider/>
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <Typography variant='h6' component='h5' color="textSecondary">
+                                        Booking Date: {this.props.appointment.bookingDate}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Typography variant='h6' component='h5' color="textSecondary">
+                                        Timeslot: {this.props.appointment.timeSlot}
+                                    </Typography>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button variant='contained' color='primary' style={{marginLeft: 'auto', float: 'right'}} onClick={this.handleClick}>Chat</Button>
+                            <Button variant='contained' color='primary' style={{marginLeft: 'auto', float: 'right'}}
+                                    onClick={this.handleClick}>Chat</Button>
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -69,4 +101,4 @@ class CounselorCard extends Component {
     };
 }
 
-export default CounselorCard;
+export default AppointmentCard;
