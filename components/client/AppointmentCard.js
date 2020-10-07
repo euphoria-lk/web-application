@@ -21,7 +21,7 @@ class AppointmentCard extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5001/api/v1/counsellor-service/counsellor/counselor/'+ this.props.appointment.counselor,
+        axios.get('http://35.192.213.59:5001/api/v1/counsellor-service/counsellor/counselor/'+ this.props.appointment.counselor,
             {
                 headers: {
                     'Content-Type': 'application/json',

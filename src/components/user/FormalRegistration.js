@@ -68,7 +68,7 @@ class FormalRegistration extends Component {
                 dob:this.state.dob,
                 city:this.state.city,
             }
-            axios.post('http://localhost:5000/api/v1/client-service/signup',JSON.stringify(body),{headers: {
+            axios.post('http://34.121.143.209:5000/api/v1/client-service/signup',JSON.stringify(body),{headers: {
             'Content-Type': 'application/json',
             }}).then( result => {
                     if(result.data.message && result.status === 200){

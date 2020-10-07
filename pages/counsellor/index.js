@@ -9,7 +9,7 @@ import SignIn from "../../components/client/SignIn";
 import CounsellorSignIn from "../../components/counsellor/CounsellorSignIn";
 
 // export async function getServerSideProps() {
-//     const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/10');
+//     const res  = await fetch('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/10');
 //     const data = await res.json();
 //
 //     return {props: {data}};

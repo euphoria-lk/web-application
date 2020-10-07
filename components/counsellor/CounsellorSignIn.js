@@ -87,7 +87,7 @@ class CounsellorSignIn extends Component{
       email:this.state.email,
       password:this.state.password
     }
-    axios.post('http://localhost:5001/api/v1/counsellor-service/counsellor/login',JSON.stringify(body),{headers: {
+    axios.post('http://35.192.213.59:5001/api/v1/counsellor-service/counsellor/login',JSON.stringify(body),{headers: {
         'Content-Type': 'application/json',
       }})
         .then((res)=>{

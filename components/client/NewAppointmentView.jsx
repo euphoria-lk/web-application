@@ -22,7 +22,7 @@ const axios = require('axios').default;
 const logo = '/euphoria-v2-art.png';
 
 // export async function getServerSideProps() {
-//     const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/10');
+//     const res  = await fetch('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/10');
 //     const data = await res.json();
 //
 //     return {props: {data}};
@@ -69,7 +69,7 @@ class NewAppointmentView extends Component {
 
         console.log(date.toISODate());
 
-        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/getAvailableTimes/' + this.state.counselor + '&' + date.toISODate(), {
+        axios.get('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/getAvailableTimes/' + this.state.counselor + '&' + date.toISODate(), {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -113,7 +113,7 @@ class NewAppointmentView extends Component {
         // console.log("datetime" + this.state.startTime);
         // const body = {}
 
-        axios.post('http://localhost:5002/api/v1/counselling-service/counsellor/appointments', JSON.stringify(this.state), {
+        axios.post('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/appointments', JSON.stringify(this.state), {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -152,7 +152,7 @@ class NewAppointmentView extends Component {
         // this.setState({
         //     isOpen:true
         // })
-        axios.get('http://localhost:5001/api/v1/counsellor-service/counsellor/' + this.state.counselor, {
+        axios.get('http://35.192.213.59:5001/api/v1/counsellor-service/counsellor/' + this.state.counselor, {
             headers: {
                 'Content-Type': 'application/json',
             }

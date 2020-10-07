@@ -22,7 +22,7 @@ class CounselorCard extends Component {
     }
     componentWillMount(){
         console.log(this.props.appointments.user);
-            axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/user/'+this.props.appointments.user,
+            axios.get('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/user/'+this.props.appointments.user,
             {
                 headers: {
                     'Content-Type': 'application/json',

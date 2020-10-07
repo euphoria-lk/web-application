@@ -25,7 +25,7 @@ class UserHomeView extends Component {
     componentWillMount() {
 
         //    const email = localStorage.getItem('counselor_email');
-        // axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/profile/'+email,
+        // axios.get('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/profile/'+email,
         //     {
         //         headers: {
         //             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ class UserHomeView extends Component {
 
     componentDidMount() {
         // const email = localStorage.getItem('counselor_email');
-        // axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/profile/'+email,
+        // axios.get('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/profile/'+email,
         //     {
         //         headers: {
         //             'Content-Type': 'application/json',

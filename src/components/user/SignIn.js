@@ -84,7 +84,7 @@ class SignIn extends Component{
       email:this.state.email,
       password:this.state.password
     }
-    axios.post('http://localhost:5000/api/v1/client-service/login',JSON.stringify(body),{headers: {
+    axios.post('http://34.121.143.209:5000/api/v1/client-service/login',JSON.stringify(body),{headers: {
         'Content-Type': 'application/json',
     }})
     .then((res)=>{

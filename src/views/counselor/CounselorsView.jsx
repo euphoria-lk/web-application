@@ -29,7 +29,7 @@ class CounselorAppointments extends Component {
 
 
     componentDidMount() {
-        axios.get('http://localhost:5002/api/v1/counsellor-service/counsellor/6',
+        axios.get('http://35.193.105.188:5002/api/v1/counsellor-service/counsellor/6',
             {
                 headers: {
                     'Content-Type': 'application/json',

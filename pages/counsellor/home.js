@@ -7,7 +7,7 @@ import EuChat from "../../components/Chat";
 const axios = require('axios').default;
 
 // export async function getServerSideProps() {
-    // const res  = await fetch('http://localhost:5002/api/v1/counselling-service/counsellor/profile/');
+    // const res  = await fetch('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/profile/');
     // const data = await res.json();
     //
     // return {props: {data}};
@@ -43,7 +43,7 @@ export default function counsellorAppointments() {
 
     const loadAppointments = () => {
         const email = localStorage.getItem('counselor_email');
-        axios.get('http://localhost:5002/api/v1/counselling-service/counsellor/profile/'+email,
+        axios.get('http://35.193.105.188:5002/api/v1/counselling-service/counsellor/profile/'+email,
             {
                 headers: {
                     'Content-Type': 'application/json',
